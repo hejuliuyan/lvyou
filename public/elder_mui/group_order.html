@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>下单班次</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="css/mui.min.css">
+		<link rel="stylesheet" href="css/css.css">
+		<script src="js/jquery-1.7.2.min.js"></script>
+		<script src="js/config.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="js/jquery-latest.js"></script>
+		<script src="js/tk_check.js"></script>
+		<style>
+		.mui-bar-nav{
+		background-color:#FF9933;
+		height: 45px;
+		overflow: hidden;
+    		
+    	}
+
+		.route_cate_title{
+			width: 90%;
+			margin-left: 5%;
+			color:#FFFFFF;
+			overflow: hidden;
+			/*border: 1px solid red;*/
+			line-height: 45px;
+			font-size: 30px;
+		}
+		.route_cate_return{
+			float:left;
+			width: 6%;
+			height: 45px;
+			color: #FFFFFF;
+			/*border: 1px solid red;*/
+		}
+		.route_cate_word{
+			float:left;
+			width: 88%;
+			height: 45px;
+			text-align: center;
+		}
+		body{
+			background-color:#F2F2F2;
+		}
+		.mui-content{
+			background-color: #F2F2F2;	
+		}
+		.collect_border{
+			width:98% ;
+			height: 80px;
+			margin-left: 1%;
+			margin-top: 0;
+			background-color: #FFFFFF;
+			/*border:1px solid red;*/
+			margin-top: 10px;
+			overflow: hidden;
+		}
+		.collect_img_border{
+			float:left;
+			width:25%;
+			height: 100%;
+			margin-left: 1%;
+			/*border: 1px solid blue;*/
+		}
+		.collect_img{
+			width:100%;
+			height: 70px;
+			margin-top: 5px;
+		}
+		.route_name_border{
+			float:right;
+			width:73%;
+			height: 100%;
+			margin-left: 1%;
+			/*border: 1px solid blue;*/
+			overflow: hidden;
+		}
+		.route_name{
+			float:left;
+			width:100%;
+			margin-top: 5px;
+			height: 23px;
+			color:#6699FF;
+			font-weight: 600;
+			/*border: 1px solid green;*/
+			white-space: nowrap;/*禁止换行直到遇到br*/
+            text-overflow: ellipsis;/*溢出时...显示*/
+			overflow: hidden;
+		}
+		.start_date{
+			float:left;
+			width:100%;
+			margin-top: 5px;
+			height: 22px;
+			font-weight: 500;
+			/*border: 1px solid green;*/
+		}
+		.traffic_date{
+			float:left;
+			width:100%;
+			margin-top: 5px;
+			height: 20px;
+			/*border: 1px solid green;*/
+			overflow: hidden;
+		}
+		/*.route_traffic{
+			line-height: 20px;
+			float:left;
+			color: #666666;
+			font-weight: 700;
+			width:60% ;
+			white-space:nowrap;
+			overflow: hidden;
+            text-overflow: ellipsis;
+
+		}*/
+		/*.route_date{
+			line-height: 20px;
+			float:right;
+			color: #666666;
+			font-weight: 700;
+		}*/
+		
+		
+		.nav_border{
+			background-color:#6699FF;
+			line-height: 50px;
+			height: 50px;
+			width: 100%;
+			text-align: center;
+			color:#FFFFFF;
+			font-weight: 700;
+			cursor: pointer;
+		}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<div class="route_cate_title">
+				<a href="zx_personal.html"><span class="route_cate_return"><</span></a><span class="route_cate_word">下单班次</span>
+			</div>
+		</header>
+		<div class="mui-content">
+			<!--<div class="collect_border">
+				<div class="collect_img_border">
+					<img  class="collect_img" src=""/>
+				</div>
+				<div class="route_name_border">
+					<div class="route_name">是单人故事都是法国还是都是法国还是都是法国还是都是法国还是</div>
+					<div class="traffic_date"><span class='route_traffic'></span><span class='route_date'></span></div>
+				</div>
+			</div>-->
+		
+		</div>
+		<!--<nav class="nav_border mui-action-back mui-bar mui-bar-tab">	
+			返回>个人中心
+		</nav>-->
+	</body>
+	<script>
+	//记录此页链接
+	var prevurl = window.location.href;
+	window.localStorage.setItem('prevurl',prevurl);
+	
+		var userid = window.localStorage.getItem('token');
+		 $(function(){  
+
+	   		mui.ajax(config[0].url+'/index.php/group_order',{
+	   			data:{userid:userid},
+	   			type:'POST',
+	   			dataType:'json',
+	   			timeout:10000,
+	   			success:function(data){
+//	 				console.log(data);return;
+	   				//创建节点
+	   				var route_num = data.length;
+	   				for(var i=0;i<route_num;i++){
+	   					if(data[i]['play_way']==1){
+   							var play_way = '品质游';
+	   					}else if(data[i]['play_way']==2){
+	   						var play_way = '跟团游';
+	   					}else{
+	   						var play_way = '自驾游';
+	   					}
+	   					var group_order = "<div class='collect_border'>"+
+												"<div class='collect_img_border' id="+data[i]['route_id']+">"+
+													"<img  class='collect_img' src="+config[0].url+"/Uploads/pic/"+data[i]['picture']+">"+
+												"</div>"+
+												"<div class='route_name_border' id="+data[i]['place_id']+">"+
+													"<div class='route_name'><"+play_way+">"+data[i]['route_name']+"</div>"+
+													"<div class='start_date'>出发日期："+getLocalTime(data[i]['date_departure'])+"</div>"+
+													"<div class='traffic_date'>班次："+data[i]['class_code']+"</div>"+
+												"</div>"+
+											"</div>";
+	   					$('.mui-content').append(group_order);
+	   					
+	   				}	
+	   			},
+	   			error:function(xhr,type,errorThrown){
+	   				switch (type) {
+						case "timeout":
+							mui.toast('连接超时，请重试');
+							break;
+						default:
+							mui.toast('请重试或重新登录');
+					}
+	   			}
+	   		});
+	}); 
+	//获取详情
+	$(document).on('tap','.collect_img_border',function(){
+		var id = $(this).attr("id");
+		var html = 'route_detail.html?id='+id;
+        token_check(userid, html);
+	});
+	$(document).on('tap','.route_name_border',function(){
+		var id = $(this).attr("id");
+		var html = 'group_order_detail.html?id='+id;
+        token_check(userid, html);
+	});
+	function getLocalTime(nS) {
+		return new Date(parseInt(nS) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');
+	}
+	</script>
+</html>
+

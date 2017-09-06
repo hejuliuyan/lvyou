@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <title>订单确认</title>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+    <script src="js/mui.min.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/tk_check.js"></script>
+     <script src="js/jquery-latest.js"></script>
+	<script src="js/jquery-3.1.0.js"></script>
+    <script type="text/javascript" charset="UTF-8">
+        mui.init({
+           
+        });
+    </script>
+    <script src="js/jquery-latest.js"></script>
+    <style>
+    	.mui-bar-nav{
+    		background-color:#FF9933;
+    		height: 50px;
+    		overflow: hidden;
+    		
+    	}
+    	.mui-bar-tab{
+    		background-color:#FFFFFF;
+    		
+    		/*background-color:#EFEFF4;*/
+    	}
+       
+		.route_cate_title{
+			width: 90%;
+			margin-left: 5%;
+			color:#FFFFFF;
+			overflow: hidden;
+			/*border: 1px solid red;*/
+			line-height: 50px;
+			font-size: 30px;
+		}
+		.route_cate_return{
+			float:left;
+			width: 6%;
+			/*height: 60px;*/
+			color: #FFFFFF;
+			/*border: 1px solid red;*/
+		}
+		.route_cate_word{
+			float:left;
+			width: 88%;
+			/*height: 60px;*/
+			text-align: center;
+		}
+		.mui-content{
+			/*background-color: #EFEFF4;*/
+			overflow: hidden;
+		}
+        .route_detail {
+         	margin-top: 10px;
+         	background-color: #FFFFFF;
+            /*border: 1px solid red;*/
+            width: 100%; 
+            float:left;
+            
+            
+        }
+        .order_route{
+        	
+            width: 96%;
+            height: 60px;
+            line-height: 30px;
+            font-size: 20px;
+            /*border: 1px solid red;*/
+            /*float:left;*/
+            margin-left: 2%;
+            border-bottom:1px solid #E6E6EC;
+            overflow: hidden;
+        }
+         .order_start_date{
+        	margin-top: 5px;
+            width: 96%;
+            height: 30px;
+            line-height: 30px;
+            font-size: 20px;
+            /*border: 1px solid red;*/
+            /*float:left;*/
+            margin-left: 2%;
+            overflow: hidden;
+        }
+         .order_place{
+        	margin-top: 5px;
+            width: 96%;
+            height: 60px;
+            line-height: 30px;
+            font-size: 20px;
+            /*border: 1px solid red;*/
+            /*float:left;*/
+            margin-left: 2%;
+            overflow: hidden;
+        }
+        .order_peer{
+        	
+            width: 96%;
+            line-height: 30px;
+            /*border: 1px solid red;*/
+            /*float:left;*/
+            margin-left: 2%;
+            overflow: hidden;
+        }
+        .order_peer_member{
+        	
+            width: 96%;
+            line-height: 30px;
+            /*border: 1px solid red;*/
+            /*float:left;*/
+            margin-left: 2%;
+            overflow: hidden;
+        }
+        .order_peer_members{
+        	width: 33.3%;
+        	float: left;
+        	text-align: center;
+        }
+        .mui_select{
+            background-color: #FFFFFF;
+            /*border: 1px solid red;*/
+            width: 100%;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: 600;
+            position:fixed;
+            left:0;
+            bottom:50px;
+            float:left;
+            
+        }
+        .route_order{
+			width:80%;
+			margin-left: 10%;
+			margin-top: 10px;
+			background-color: #6799FD;
+			height: 40px;
+			line-height: 30px;
+			text-align: center;
+			color:#FFFFFF;
+			font-weight: 700;
+			cursor: pointer;
+			
+		}
+	
+    </style>
+</head>
+<body >
+<header class="mui-bar mui-bar-nav">
+		<div class="route_cate_title">
+			<span class="route_cate_return mui-action-back"><</span><span class="route_cate_word">订单确认</span>
+		</div>
+</header>
+
+<div class="mui-content">
+	<div class="route_detail">
+		<div class='order_route'>
+			
+		</div>
+		<div class='order_start_date'>
+			<span>出行日期：</span><span class="start_date_span" style="float: right;"></span>
+		</div>
+		<!--<div class='order_place'>
+			<span>集合地址：</span><span class="start_place_span"></span>
+		</div>-->
+		
+	</div>
+	<div class='route_detail'>
+		<div class='order_peer'>
+			出行人：
+		</div>
+		<div class='order_peer_member'>
+			
+		</div>
+	</div>
+	<div class='route_detail route-cate'>
+		<!--<div class='order_start_date show_price'>
+			<span>费&nbsp;&nbsp;&nbsp;&nbsp;用：</span><span class="order_price" style="color: red;"></span>
+		</div>-->
+		<!--<div class='order_start_date'>
+			<span>扣除次数： </span><span class="require_num"></span>
+		</div>-->
+		<div class='order_start_date'>
+			<span>产品类型： </span><span class="product_cate" data-product=''></span>
+		</div>
+	</div>
+	
+	
+	<div class="mui_select"> 
+			<input type="checkbox" name="checkbox" id="net_proto" onclick="checkChange(this)" value="" />我已阅读预定须知
+	</div>
+	
+</div>
+
+<nav class="mui-bar mui-bar-tab">
+	<button class="route_order" >下单</button>
+</nav>
+
+</body>
+
+<script type="text/javascript">
+//	var clintheight = window.screen.availHeight-150;
+//		console.log(clintheight);
+//	$('.mui_content').css('height',clintheight);
+	
+    var userid = window.localStorage.getItem('token');
+    var urll = window.location.href;
+	var id = urll.substr(urll.indexOf('=')+1);
+	$(function(){
+		var route_place_id =window.localStorage.getItem('route_place_id');
+		console.log(route_place_id);
+		if(route_place_id == ''){
+			mui.toast('请选择出发班次');
+			var html = 'route_detail.html';
+        	token_check(userid, html);
+		}
+		
+		var peer_member =window.localStorage.getItem('peer_member');
+		console.log(peer_member);
+		if(peer_member == ''){
+			mui.toast('请选择出行人员');
+			var html = 'route_detail.html';
+        	token_check(userid, html);
+		}
+		mui.ajax(config[0].url+'/index.php/order_affirm', {
+            data: {
+                member_id: peer_member,
+                route_id:id,
+                route_place_id:route_place_id,
+                userid:userid,
+            },
+            dataType: 'json', //服务器返回json格式数据
+            type: 'post', //HTTP请求类型
+            timeout: 10000, //超时时间设置为10秒；
+            success: function(data) {
+              	console.log(data);
+            	$('.order_route').html(data['route_name']);
+            	$('.start_date_span').html(data['start_city_place_date']);
+//          	$('.start_place_span').html(data['start_city_place']);
+            	var count = data['members'].length;
+            	for(var i=0;i<count;i++){
+            		var order_peer_member = $("<span class='order_peer_members'>"+data['members'][i]+"</span>");
+            		$('.order_peer_member').append(order_peer_member);
+            		
+            	}
+            	//如果组长自己没选中，则没有费用这一项
+//          	var member_arr = new Array();
+//          	member_arr = peer_member.split(',');
+//          	for(var i=0;i<member_arr.length;i++){
+//          		
+//          		if(member_arr[i]==data['id']){
+//          			var show_price = 1;
+//          		}
+//          	}
+
+				
+            	if(data['product_cate'] == 2){
+            		var product_node = "<div class='order_start_date'>"+
+							"<span>扣除次数： </span><span class='require_num'>"+data['require_num']+"次</span>"+
+						"</div>";
+					$(".route-cate").prepend(product_node);
+					var price_node = "<div class='order_start_date show_price'>"+
+										"<span>费&nbsp;&nbsp;&nbsp;&nbsp;用：</span><span class='order_price' style='color: red;'>￥0</span>"+
+									"</div>";			
+            		$('.route-cate').prepend(price_node);
+            		
+            		var product_cate = '会员免费';
+            		$('.product_cate').attr('data-product',2);
+            	}else{
+            		var price_node = "<div class='order_start_date show_price'>"+
+										"<span>费&nbsp;&nbsp;&nbsp;&nbsp;用：</span><span class='order_price' style='color: red;'>￥"+data['discount_price']+"</span>"+
+									"</div>";			
+            		$('.route-cate').prepend(price_node);
+            		
+            		var product_cate = '精品';
+            		$('.product_cate').attr('data-product',3);
+            	}
+            	$('.product_cate').html(product_cate);
+        	},
+            error: function (xhr, type, errorThrown) {
+                //异常处理；
+                //console.log(type);
+                switch (type) {
+                    case "timeout":
+                        mui.toast('连接超时，请重试');
+                        break;
+                    default:
+                        mui.toast('请重试或重新登录');
+                }
+            }
+        });
+	});
+    //下单
+    //预订
+     function checkChange(obj) {
+     	console.log(obj.checked);
+        if (obj.checked == false) {
+           obj.checked == true;
+        }else{
+        	obj.checked == false;
+        }
+    }
+    
+	$(document).on('tap', '.route_order',function(){
+		
+		var checkedobj =  document.getElementsByName("checkbox")[0];
+		console.log(checkedobj.checked);
+		if(checkedobj.checked== false){
+			return false;
+		}
+		
+		var route_place_id =window.localStorage.getItem('route_place_id');
+		console.log(route_place_id);
+		if(route_place_id == ''){
+			mui.toast('请选择出发地址');return false;
+		}
+		var peer_member =window.localStorage.getItem('peer_member');
+		console.log(peer_member);
+		if(peer_member == ''){
+			mui.toast('请选择同行人员');return false;
+		}
+		
+		//防重复双击提交
+		$('.route_order').attr('disabled',true);
+		
+		if($('.product_cate').data('product') == 2){
+			mui.ajax(config[0].url+'/index.php/integral_post', {
+	            data: {
+	            	userid:userid,
+	                member_id: peer_member,
+	                route_id:id,
+	                route_place_id:route_place_id,
+	            },
+	            dataType: 'json', //服务器返回json格式数据
+	            type: 'post', //HTTP请求类型
+	            timeout: 10000, //超时时间设置为10秒；
+	            success: function(data) {
+	            	console.log(data);
+	            	if(data['res'] == 'null'){
+	            		mui.toast('请选择同行人员');return;
+	            	}else if(data['res'] == 'overflow1'){
+	            		var repeat_name;
+						repeat_name = data['repeat_name'].join(",");
+	            		alert('重复提交'+data['peer_repeat']+'人:'+repeat_name+'。不算重复超出'+data['message']+'人');return;
+	            	}else if(data['res'] == 'overflow2'){
+	            		alert('超出'+data['message']+'人');return;
+	            	}else if(data['res'] == 'repeatWrong'){
+	            		alert('重复提交，请重新下单');return;
+	            	}else if(data['res'] == true){
+	    				if(data['notice']==1){
+	    					alert('成功提交'+data['success']+'人');
+	    				}else if(data['notice']==4){
+	    					var repeat_name = data['repeat_name'].join(",");
+	    					alert('成功提交'+data['success']+'人。'+data['peer_repeat']+'人重复提交: '+repeat_name);
+	    				}
+	        			
+	            		window.localStorage.setItem('peer_member','');
+	            		window.localStorage.setItem('route_place_id','');
+	            		window.localStorage.setItem('city_date_place','');
+						if(data['skip']==1 && data['order_id']){
+		            		var html = 'pay_confirm.html?order_id='+data['order_id'];
+		        			token_check(userid, html);
+						}else if(data['skip']==2){
+		            		var html = 'order_list.html';
+		        			token_check(userid, html);
+						}else{
+							mui.toast('下单失败，请重新提交');return;
+						}
+				        
+	            	}else{
+	            		window.localStorage.setItem('peer_member','');
+	            		window.localStorage.setItem('route_place_id','');
+	            		window.localStorage.setItem('city_date_place','');
+	            		mui.toast('订购失败,请重新下单');return;
+	            	}
+	            },
+	   			error:function(xhr,type,errorThrown){
+	   				switch (type) {
+						case "timeout":
+							mui.toast('连接超时，请重试');
+							break;
+						default:
+							mui.toast('请重试或重新登录');
+					}
+	   			}
+	   		});
+		}else if($('.product_cate').data('product') == 3){
+			mui.ajax(config[0].url+'/index.php/cash_post', {
+	            data: {
+	            	userid:userid,
+	                member_id: peer_member,
+	                route_id:id,
+	                route_place_id:route_place_id,
+	            },
+	            dataType: 'json', //服务器返回json格式数据
+	            type: 'post', //HTTP请求类型
+	            timeout: 10000, //超时时间设置为10秒；
+	            success: function(data) {
+	            	console.log(data);
+	            	if(data['res'] == 'null'){
+	            		mui.toast('请选择同行人员');return;
+	            	}else if(data['res'] == 'overflow1'){
+	            		var repeat_name;
+						repeat_name = data['repeat_name'].join(",");
+	            		alert('重复提交'+data['peer_repeat']+'人:'+repeat_name+'。不算重复超出'+data['message']+'人');return;
+	            	}else if(data['res'] == 'overflow2'){
+	            		alert('超出'+data['message']+'人');return;
+	            	}else if(data['res'] == 'repeatWrong'){
+	            		alert('重复提交，请重新下单');return;
+	            	}else if(data['res'] == 'virtualWrong'){
+	            		alert('积分不足，请重新下单');return;
+	            	}else if(data['res'] == 'reViWrong'){
+	            		alert('订单重复提交和积分不足，请重新下单');return;
+	            	}else if(data['res'] == true){
+	    				if(data['notice']==1){
+	    					alert('成功提交'+data['success']+'人');
+	    				}else if(data['notice']==2){
+							var virtualname = data['virtualname'].join(",");
+	    					alert('成功提交'+data['success']+'人，'+data['virtualcount']+'人积分不足:'+virtualname);
+	    				}else if(data['notice']==3){
+	    					var repeat_name = data['repeat_name'].join(",");
+	    					alert('成功提交'+data['success']+'人，'+data['peer_repeat']+'人重复提交:'+repeat_name);
+	    				}else if(data['notice']==4){
+	    					var virtualname = data['virtualname'].join(",");
+	    					var repeat_name = data['repeat_name'].join(",");
+	    					alert('成功提交'+data['success']+'人。'+data['peer_repeat']+'人重复提交: '+repeat_name+'。'+data['virtualcount']+'人积分不足: '+virtualname);
+	    				}
+	        			
+	            		window.localStorage.setItem('peer_member','');
+	            		window.localStorage.setItem('route_place_id','');
+	            		window.localStorage.setItem('city_date_place','');
+						if(data['skip']==1 && data['order_id']){
+		            		var html = 'pay_confirm.html?order_id='+data['order_id'];
+		        			token_check(userid, html);
+						}else if(data['skip']==2){
+		            		var html = 'order_list.html';
+		        			token_check(userid, html);
+						}else{
+							mui.toast('下单失败，请重新提交');return;
+						}
+				        
+	            	}else{
+	            		window.localStorage.setItem('peer_member','');
+	            		window.localStorage.setItem('route_place_id','');
+	            		window.localStorage.setItem('city_date_place','');
+	            		mui.toast('订购失败,请重新下单');return;
+	            	}
+	            },
+	   			error:function(xhr,type,errorThrown){
+	   				switch (type) {
+						case "timeout":
+							mui.toast('连接超时，请重试');
+							break;
+						default:
+							mui.toast('请重试或重新登录');
+					}
+	   			}
+	   		});
+		}else{
+			mui.toast('确认失败，请重新下单');return false;
+		}
+		   		
+	});
+    
+    
+    
+
+</script>
+</html>

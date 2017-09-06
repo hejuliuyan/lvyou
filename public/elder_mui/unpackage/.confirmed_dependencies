@@ -1,0 +1,268 @@
+{
+	"index.html": {
+		"resources": [
+			"wimages/front/u13.jpg",
+			"wimages/front/u5.jpg",
+			"wimages/personal/u31.png",
+			"js/tk_check.js",
+			"wimages/front/index1.png",
+			"js/jquery-1.7.2.min.js",
+			"wimages/front/index2.png",
+			"css/css.css",
+			"wimages/front/u21.jpg",
+			"wimages/front/u67.jpg",
+			"wimages/personal/u33.png",
+			"js/mui.min.js",
+			"wimages/front/u57.jpg",
+			"wimages/front/u53.jpg",
+			"css/mui.min.css",
+			"wimages/front/u69.png",
+			"js/jquery-latest.js",
+			"js/config.js",
+			"wimages/personal/u35.png"
+		],
+		"refer": [
+			"login.html",
+			"route_product_cate_main.html",
+			"route_list.html",
+			"zx_personal.html",
+			"route_detail.html",
+			"team_rate_main.html"
+		]
+	},
+	"login.html": {
+		"resources": [
+			"js/jquery.min.js",
+			"css/login.css",
+			"fonts/mui.ttf",
+			"wimages/personal/lock.png",
+			"wimages/personal/head.png"
+		],
+		"refer": [
+			"index.html"
+		]
+	},
+	"route_product_cate_main.html": {
+		"resources": [
+			"route_product_cate.html",
+			"css/zx_personal.css",
+			"wimages/personal/u33.png",
+			"js/mui.min.js",
+			"wimages/personal/u31.png",
+			"js/tk_check.js",
+			"css/mui.min.css",
+			"js/jquery-latest.js",
+			"js/config.js",
+			"wimages/personal/u35.png",
+			"route_detail.html"
+		],
+		"refer": [
+			"route_product_cate.html",
+			"route_detail.html"
+		]
+	},
+	"route_list.html": {
+		"resources": [
+			"css/zx_personal.css"
+		],
+		"refer": [
+			"index.html",
+			"route_detail.html",
+			"route_list_cate_main.html",
+			"zx_personal.html"
+		]
+	},
+	"route_detail.html": {
+		"resources": [
+			"wimages/route/u540.png",
+			"wimages/route/eptheart_u619.png",
+			"wimages/route/u633.png",
+			"wimages/route/u600.png",
+			"js/mui.picker.min.js",
+			"wimages/route/map.png",
+			"wimages/route/u562.png",
+			"wimages/route/date.png",
+			"wimages/route/u639.png",
+			"css/app.css",
+			"wimages/route/chu.png",
+			"css/mui.picker.min.css",
+			"js/jquery-3.1.0.js",
+			"wimages/route/return_u625.png",
+			"wimages/route/traffic.png",
+			"wimages/route/dao.png",
+			"css/zx_personal.css",
+			"route_product_cate_main.html",
+			"js/tk_check.js",
+			"js/mui.min.js",
+			"css/mui.min.css",
+			"js/jquery-latest.js",
+			"js/config.js",
+			"route_list_cate_main.html"
+		],
+		"refer": [
+			"route_city_date.html",
+			"route_product_cate_main.html",
+			"index.html",
+			"route_list_cate_main.html",
+			"zx_personal.html"
+		]
+	},
+	"route_product_cate.html": {
+		"refer": [
+			"route_detail.html"
+		]
+	},
+	"zx_personal.html": {
+		"resources": [
+			"css/zx_personal.css",
+			"wimages/personal/u232.png",
+			"wimages/personal/u234.png",
+			"wimages/personal/u222.png",
+			"wimages/personal/u246.png",
+			"wimages/personal/u230.png",
+			"wimages/personal/u248.png",
+			"wimages/personal/u31.png",
+			"js/tk_check.js",
+			"wimages/personal/u33.png",
+			"js/mui.min.js",
+			"css/mui.min.css",
+			"js/jquery-latest.js",
+			"js/config.js",
+			"wimages/personal/u35.png"
+		],
+		"refer": [
+			"route_list.html",
+			"order_list.html",
+			"route_collect.html",
+			"personal.html",
+			"psd_mg.html",
+			"index.html"
+		]
+	},
+	"route_city_date.html": {
+		"resources": [
+			"jqdate/css/calendar.css",
+			"jqdate/css/calendar.custom.css",
+			"fonts/mui.ttf",
+			"jqdate/js/modernizr.custom.js",
+			"jqdate/fonts/fontawesome-selected.woff",
+			"css/mui.indexedlist.css",
+			"js/mui.indexedlist.js",
+			"jqdate/js/jquery.calendario.js",
+			"js/mui.picker.min.js",
+			"js/tk_check.js",
+			"js/mui.min.js",
+			"css/app.css",
+			"css/mui.min.css",
+			"js/jquery-3.1.0.js",
+			"css/mui.picker.min.css",
+			"js/jquery-latest.js",
+			"js/config.js"
+		]
+	},
+	"route_list_cate_main.html": {
+		"resources": [
+			"route_list_cate.html",
+			"css/zx_personal.css",
+			"wimages/personal/u33.png",
+			"js/mui.min.js",
+			"wimages/personal/u31.png",
+			"js/tk_check.js",
+			"css/mui.min.css",
+			"js/jquery-latest.js",
+			"js/config.js",
+			"wimages/personal/u35.png"
+		],
+		"refer": [
+			"route_list_cate.html"
+		]
+	},
+	"route_list_cate.html": {
+		"refer": [
+			"route_detail.html"
+		]
+	},
+	"order_list.html": {
+		"resources": [
+			"fonts/mui.ttf",
+			"js/jquery-3.1.0.js",
+			"js/mui.min.js",
+			"js/tk_check.js",
+			"css/mui.min.css",
+			"js/jquery-latest.js",
+			"js/config.js"
+		]
+	},
+	"route_collect.html": {
+		"resources": [
+			"css/css.css",
+			"js/mui.min.js",
+			"js/tk_check.js",
+			"css/mui.min.css",
+			"js/jquery-latest.js",
+			"js/config.js",
+			"js/jquery-1.7.2.min.js"
+		]
+	},
+	"team_rate_main.html": {
+		"resources": [
+			"css/zx_personal.css",
+			"team_rate.html"
+		],
+		"refer": [
+			"team_rate.html"
+		]
+	},
+	"personal.html": {
+		"resources": [
+			"wimages/personal/u296.png",
+			"fonts/mui.ttf",
+			"wimages/personal/ushi.png",
+			"css/personal.css",
+			"wimages/personal/uzuzhang.png",
+			"wimages/personal/u302.png",
+			"wimages/personal/u298.png",
+			"wimages/personal/u286.png",
+			"wimages/personal/u300.png",
+			"js/jquery-1.7.2.min.js",
+			"wimages/personal/u222.png",
+			"wimages/personal/gou.png",
+			"js/mui.min.js",
+			"css/mui.min.css",
+			"js/config.js"
+		],
+		"refer": [
+			"zx_personal.html"
+		]
+	},
+	"psd_mg.html": {
+		"resources": [
+			"js/shop_check.js",
+			"css/zx_personal.css",
+			"wimages/personal/pass.png",
+			"js/jquery.min.js",
+			"wimages/personal/shop.png",
+			"js/mui.min.js",
+			"js/tk_check.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"js/jquery-latest.js",
+			"js/config.js",
+			"wimages/personal/jt_rr.png"
+		],
+		"refer": [
+			"update_pass.html"
+		]
+	},
+	"update_pass.html": {
+		"resources": [
+			"css/update_pass.css"
+		]
+	},
+	"popovers.html": {
+		"resources": [
+			"css/app.css",
+			"fonts/mui.ttf"
+		]
+	}
+}

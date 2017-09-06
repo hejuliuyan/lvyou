@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <script src="js/mui.min.js"></script><script src="js/config.js"></script>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+    <link href="css/zx_personal.css" rel="stylesheet"/>
+    <script src="js/config.js"></script>
+    <script src="js/tk_check.js"></script>
+    <script src="js/jquery-latest.js"></script>
+    <style type="text/css">
+    	.mui-bar-nav{
+    		background-color:#FF9933;
+    		height: 45px;
+    		overflow: hidden;
+    		
+    	}
+    	.mui-bar-tab{
+    		background-color:#FF9933;
+    	}
+        .mui-content {
+            background-color: #fff;
+        }
+		.route_cate_title{
+			width: 90%;
+			margin-left: 5%;
+			color:#FFFFFF;
+			/*text-align:center;*/
+			overflow: hidden;
+			/*border: 1px solid red;*/
+			line-height: 45px;
+			font-size: 30px;
+		}
+		.route_cate_return{
+			float:left;
+			width: 6%;
+			height: 45px;
+			color:#FFFFFF;
+			/*border: 1px solid red;*/
+		}
+		.route_cate_word{
+			float:left;
+			width: 88%;
+			height: 45px;
+			text-align: center;
+			/*border: 1px solid blue;*/
+			white-space: nowrap;/*禁止换行直到遇到br*/
+            text-overflow: ellipsis;/*溢出时...显示*/
+			overflow: hidden;
+
+		}
+		/*/////////////////////////////////////////////////////////////////////////////////////*/
+        .index {
+            background-image: url(wimages/personal/u31.png);
+            background-size: 100%;
+            background-repeat: no-repeat;
+            width: 24px;
+            height: 22px;
+            background-position: center;
+            display: block;
+            margin: 0 auto;
+            margin-top: 3px;
+        }
+		.load {
+			background-image: url(wimages/personal/u33.png);
+			background-size: 100%;
+			background-repeat: no-repeat;
+			width: 30px;
+			height: 30px;
+			background-position: center;
+			display: block;
+			margin: 0 auto;
+			margin-top: 3px;
+		}
+        .wd_font {
+            font-size: 16px;
+            color:#FFFFFF;
+        }
+
+        .index_font {
+            font-size: 16px;
+            color:#FFFFFF;
+        }
+
+        .wd {
+            background-image: url(wimages/personal/u35.png);
+            background-size: 100%;
+            background-repeat: no-repeat;
+            width: 24px;
+            height: 22px;
+            background-position: center;
+            display: block;
+            margin: 0 auto;
+            margin-top: 3px;
+        }
+
+        .mui-grid-view.mui-grid-9 .mui-table-view-cell {
+            padding: 11px 9px;
+        }
+
+        .bottom_nav {
+            display: table-cell;
+            overflow: hidden;
+            width: 1%;
+            height: 50px;
+            text-align: center;
+            vertical-align: middle;
+            white-space: nowrap;/*禁止换行直到遇到br*/
+            text-overflow: ellipsis;/*溢出时...显示*/
+            color: #929292;
+        }
+    </style>
+    
+</head>
+<body>
+	<header class="mui-bar mui-bar-nav f_record">
+	    <div class="route_cate_title">
+			<a href="index.html"><div class="route_cate_return"><</div ></a><div class="route_cate_word"></div>
+		</div>
+	</header>
+	
+	<nav class="mui-bar mui-bar-tab">
+	    <a class="bottom_nav mui-active w_index" href="javascript:void(0)">
+	        <span class="index"></span>
+	        <span class="mui-tab-label index_font">首页</span>
+	    </a>
+	    <a class="bottom_nav load_info">
+				<span class="load"></span>
+				<span class="mui-tab-label wd_font">线路</span>
+			</a>
+	    <a href="javascript:void(0)" class="bottom_nav w_info">
+	        <span class="wd"></span>
+	        <span class="mui-tab-label wd_font">我的</span>
+	    </a>
+	</nav>
+	<div class="mui-content">
+	    
+	</div>
+	<script src="js/mui.min.js"></script>
+	<script type="text/javascript">
+	/* 将链接存入缓存>>>*/
+	var prevurl = window.location.href;
+	window.localStorage.setItem('prevurl',prevurl);
+	/*<<<<<<*/
+		var userid = window.localStorage.getItem('token');
+    
+    //查询route_cate 3种情况各limit 1
+     
+    	
+ 
+		
+	//计算可下拉次数
+		$(function(){
+			var urll = window.location.href;
+	    	var product_cate = urll.substr(urll.indexOf('=')+1,1);
+	    	if(product_cate ==1){
+	    		$('.route_cate_word').html('最新尾单');
+	    	}else if(product_cate ==2){
+	    		$('.route_cate_word').html('会员免费');
+	    	}else{
+	    		var html = 'index.html';
+	        	token_check(userid, html);
+	    	}
+	    	window.localStorage.setItem('product_cate',product_cate);
+			mui.ajax(config[0].url+'/index.php/product_down_num',{
+	   			data:{product_cate:product_cate,userid:userid},
+	   			type:'POST',
+	   			dataType:'json',
+	   			timeout:10000,
+	   			success:function(data){
+	   				//console.log(data);
+					window.localStorage.setItem('product_down_num',Math.round(data/3));
+					window.localStorage.setItem('product_down_count',data);
+	   			},
+	   			error:function(xhr,type,errorThrown){
+	   				switch (type) {
+						case "timeout":
+							mui.toast('连接超时，请重试');
+							break;
+						default:
+							mui.toast('请重试或重新登录');
+					}
+	   			}
+	   		});
+		});
+		//下方三按钮
+		$(document).on('tap', '.w_info', function () {
+	        var html = 'zx_personal.html';
+	        token_check(userid, html);
+	
+	    });
+	
+	    $(document).on('tap', '.w_index', function () {
+	        var html = 'index.html';
+	        token_check(userid, html);
+	
+	    });
+	     $(document).on('tap', '.load_info', function () {
+	        var html = 'route_list.html';
+	        token_check(userid, html);
+	
+	    });
+			
+		//启用双击监听
+		mui.init({
+			gestureConfig:{
+				doubletap:true
+			},
+			subpages:[{
+				url:'route_product_cate.html',
+				id:'route_product_cate.html',
+				styles:{
+					top: '45px',
+					bottom: '0px',
+				}
+			}]
+		});
+	
+		var contentWebview = null;
+		document.querySelector('header').addEventListener('doubletap',function () {
+			if(contentWebview==null){
+				contentWebview = plus.webview.currentWebview().children()[0];
+			}
+			contentWebview.evalJS("mui('#pullrefresh').pullRefresh().scrollTo(0,0,100)");
+		});
+	</script>
+
+</html>

@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <title>班次详情</title>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+    <script src="js/mui.min.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/tk_check.js"></script>
+     <script src="js/jquery-latest.js"></script>
+	<script src="js/jquery-3.1.0.js"></script>
+    <script type="text/javascript" charset="UTF-8">
+        mui.init({
+           
+        });
+    </script>
+    <script src="js/jquery-latest.js"></script>
+    <style>
+    	.mui-bar-nav{
+    		background-color:#FF9933;
+    		height: 50px;
+    		overflow: hidden;
+    		
+    	}
+    	.mui-bar-tab{
+    		background-color:#FFFFFF;
+    		
+    		/*background-color:#EFEFF4;*/
+    	}
+       
+		.route_cate_title{
+			width: 90%;
+			margin-left: 5%;
+			color:#FFFFFF;
+			overflow: hidden;
+			/*border: 1px solid red;*/
+			line-height: 50px;
+			font-size: 30px;
+		}
+		.route_cate_return{
+			float:left;
+			width: 6%;
+			/*height: 60px;*/
+			color: #FFFFFF;
+			/*border: 1px solid red;*/
+		}
+		.route_cate_word{
+			float:left;
+			width: 88%;
+			/*height: 60px;*/
+			text-align: center;
+		}
+		.mui-content{
+			/*background-color: #EFEFF4;*/
+			overflow: hidden;
+		}
+        .route_detail {
+         	margin-top: 10px;
+         	background-color: #FFFFFF;
+            /*border: 1px solid red;*/
+            width: 100%; 
+            float:left;
+            
+            
+        }
+        .order_route{
+            width: 96%;
+            height: 60px;
+            line-height: 30px;
+            font-size: 20px;
+            /*border: 1px solid red;*/
+            /*float:left;*/
+            margin-left: 2%;
+            border-bottom:1px solid #E6E6EC;
+            overflow: hidden;
+        }
+         .order_start_date{
+        	margin-top: 5px;
+            width: 96%;
+            height: 30px;
+            line-height: 30px;
+            font-size: 20px;
+            /*border: 1px solid red;*/
+            /*float:left;*/
+            margin-left: 2%;
+            overflow: hidden;
+        }
+         .order_place{
+        	margin-top: 5px;
+            width: 96%;
+            height: 60px;
+            line-height: 30px;
+            font-size: 20px;
+            /*border: 1px solid red;*/
+            /*float:left;*/
+            margin-left: 2%;
+            overflow: hidden;
+        }
+        .group_order_list{
+        	background-color: #FFFFFF;
+        	margin-top: 5px;
+        }
+      
+       
+	
+    </style>
+</head>
+<body >
+<header class="mui-bar mui-bar-nav">
+		<div class="route_cate_title">
+			<a href="group_order.html" class="route_cate_return"><</a><span class="route_cate_word">订单详情(班次)</span>
+		</div>
+</header>
+
+<div class="mui-content">
+	<div class="route_detail">
+		<div class='order_route'>
+			
+		</div>
+		<div class='order_start_date'>
+			<span>下单日期：</span><span class="order_date_span" ></span>
+		</div>
+		<div class='order_start_date'>
+			<span>出行日期：</span><span class="start_date_span" ></span>
+		</div>
+		<div class='order_start_date'>
+			<span>班次状态：</span><span class="team_status" ></span>
+		</div>
+		<div class='order_place'>
+			<span>集合地址：</span><span class="start_place_span"></span>
+		</div>
+		
+	</div>
+
+	<div class='route_detail'>
+		<div class='order_start_date show_price'>
+			<span>费&nbsp;&nbsp;&nbsp;&nbsp;用：</span><span class="order_price" style="color: red;"></span>
+		</div>
+		<div class='order_start_date'>
+			<span>产品类型： </span><span class="product_cate"></span>
+		</div>
+		<div class='order_start_date'>
+			<span>扣除机会： </span><span class="require_num"></span>
+		</div>
+	</div>
+	
+	
+	<div class='route_detail order_group'>
+		<div class="mui-table-view-cell group_order_list">
+			<a class="mui-navigate-right">
+				出行人列表
+			</a>
+		</div>
+	</div>
+	
+	
+	
+		
+	
+	
+
+</div>
+
+
+</body>
+
+<script type="text/javascript">
+//	var clintheight = window.screen.availHeight-150;
+//		console.log(clintheight);
+//	$('.mui_content').css('height',clintheight);
+	
+    var userid = window.localStorage.getItem('token');
+    var urll = window.location.href;
+	var place_id = urll.substr(urll.indexOf('=')+1);
+	
+	$(function(){
+		var order_id = urll.substr(urll.indexOf('=')+1);
+		mui.ajax(config[0].url+'/index.php/group_order_detail', {
+            data: {
+    			userid:userid,
+    			place_id:place_id
+            },
+            dataType: 'json', //服务器返回json格式数据
+            type: 'post', //HTTP请求类型
+            timeout: 10000, //超时时间设置为10秒；
+            success: function(data) {
+              	console.log(data);
+              	if(data['team_status'] ==1){
+	                var status = "成团中";
+	            }else if(data['team_status'] ==2){
+	                var status = '已推迟';
+	            }else if(data['team_status'] ==3){
+	                var status = '已成团';
+	            }else if(data['team_status'] ==4){
+	                var status = '已封团';
+	            }else if(data['team_status'] ==6){
+	                var status = '已关闭';
+	            }else if(data['team_status'] ==9){
+	                var status = '已出行';
+	            }
+	            
+            	$('.order_route').html(data['route_name']);
+            	$('.order_date_span').html(data['order_time']);
+            	$('.start_date_span').html(data['date_departure']);
+            	$('.start_place_span').html(data['city_place']);
+            	$('.team_status').html(status);
+            	$('.order_price').html("￥"+data['order_price']);
+
+            	if(data['product_cate'] == 2){
+            		var product_cate = '会员免费';
+            	}else{
+            		var product_cate = '特价';
+            	}
+            	$('.product_cate').html(product_cate);
+            	$('.require_num').html(data['require_num']+"次");
+
+        	},
+            error: function (xhr, type, errorThrown) {
+                //异常处理；
+                //console.log(type);
+                switch (type) {
+                    case "timeout":
+                        mui.toast('连接超时，请重试');
+                        break;
+                    default:
+                        mui.toast('请重试或重新登录');
+                }
+            }
+        });
+	});
+	
+	$(document).on('tap','.order_group',function(){
+		var html = 'group_order_list.html?id='+place_id;
+        token_check(userid, html);
+	});
+
+</script>
+</html>

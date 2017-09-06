@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <title>支付确认</title>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+    <script src="js/mui.min.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/tk_check.js"></script>
+     <script src="js/jquery-latest.js"></script>
+	<script src="js/jquery-3.1.0.js"></script>
+    <script type="text/javascript" charset="UTF-8">
+        mui.init({
+           
+        });
+    </script>
+    <script src="js/jquery-latest.js"></script>
+    <style>
+    	.mui-bar-nav{
+    		background-color:#FF9933;
+    		height: 50px;
+    		overflow: hidden;
+    		
+    	}
+    	.mui-bar-tab{
+    		background-color:#FFFFFF;
+    		
+    		/*background-color:#EFEFF4;*/
+    	}
+       
+		.route_cate_title{
+			width: 90%;
+			margin-left: 5%;
+			color:#FFFFFF;
+			overflow: hidden;
+			/*border: 1px solid red;*/
+			line-height: 50px;
+			font-size: 30px;
+		}
+		.route_cate_return{
+			float:left;
+			width: 6%;
+			/*height: 60px;*/
+			color: #FFFFFF;
+			/*border: 1px solid red;*/
+		}
+		.route_cate_word{
+			float:left;
+			width: 88%;
+			/*height: 60px;*/
+			text-align: center;
+		}
+		.mui-content{
+			/*background-color: #EFEFF4;*/
+			overflow: hidden;
+		}
+        .route_detail {
+         	margin-top: 10px;
+         	background-color: #FFFFFF;
+            /*border: 1px solid red;*/
+            width: 100%; 
+            float:left;
+            
+            
+        }
+        .order_route{
+        	
+            width: 96%;
+            height: 60px;
+            line-height: 30px;
+            font-size: 20px;
+            /*border: 1px solid red;*/
+            /*float:left;*/
+            margin-left: 2%;
+            border-bottom:1px solid #E6E6EC;
+            overflow: hidden;
+        }
+         .order_start_date{
+        	margin-top: 5px;
+            width: 96%;
+            height: 30px;
+            line-height: 30px;
+            font-size: 20px;
+            /*border: 1px solid red;*/
+            /*float:left;*/
+            margin-left: 2%;
+            overflow: hidden;
+        }
+         .order_place{
+        	margin-top: 5px;
+            width: 96%;
+            height: 60px;
+            line-height: 30px;
+            font-size: 20px;
+            /*border: 1px solid red;*/
+            /*float:left;*/
+            margin-left: 2%;
+            overflow: hidden;
+        }
+         .route_order{
+			width:80%;
+			margin-left: 10%;
+			margin-top: 10px;
+			background-color: #6799FD;
+			height: 40px;
+			line-height: 30px;
+			text-align: center;
+			color:#FFFFFF;
+			font-weight: 700;
+			cursor: pointer;
+			
+		}
+       
+	
+    </style>
+</head>
+<body >
+<header class="mui-bar mui-bar-nav">
+		<div class="route_cate_title">
+			<a href="order_list.html"><span class="route_cate_return"><</span></a><span class="route_cate_word">支付确认</span>
+		</div>
+</header>
+
+<div class="mui-content">
+	<div class="route_detail">
+		<div class='order_route'>
+			
+		</div>
+		<div class='order_start_date'>
+			<span>下单日期：</span><span class="order_date_span" ></span>
+		</div>
+		<div class='order_start_date'>
+			<span>出行日期：</span><span class="start_date_span" ></span>
+		</div>
+		<!--<div class='order_place'>
+			<span>集合地址：</span><span class="start_place_span"></span>
+		</div>-->
+		
+	</div>
+
+	<div class='route_detail route-cate'>
+		<!--<div class='order_start_date show_price'>
+			<span>费&nbsp;&nbsp;&nbsp;&nbsp;用：</span><span class="order_price" style="color: red;"></span>
+		</div>-->
+		<div class='order_start_date'>
+			<span>产品类型： </span><span class="product_cate" data-product='' data-require=''></span>
+		</div>
+		<!--<div class='order_start_date'>
+			<span>扣除机会： </span><span class="require_num"></span>
+		</div>-->
+	</div>
+	
+	<div class='route_detail'>
+		<div class='order_start_date show_price'>
+			<span>订单编号：</span><span class="order_code" ></span>
+		</div>
+		<div class='order_start_date show_price'>
+			<span>订单状态：</span><span class="order_status" style="color: red;"></span>
+		</div>
+	</div>
+
+</div>
+<nav class="mui-bar mui-bar-tab">
+	<button class="route_order">确认支付</button>
+</nav>
+
+</body>
+
+<script type="text/javascript">
+//	var clintheight = window.screen.availHeight-150;
+//		console.log(clintheight);
+//	$('.mui_content').css('height',clintheight);
+	
+    var userid = window.localStorage.getItem('token');
+    var urll = window.location.href;
+	var order_id = urll.substr(urll.indexOf('=')+1);
+	$(function(){
+		mui.ajax(config[0].url+'/index.php/front_order_detail', {
+            data: {
+    			userid:userid,
+                order_id:order_id,
+            },
+            dataType: 'json', //服务器返回json格式数据
+            type: 'post', //HTTP请求类型
+            timeout: 10000, //超时时间设置为10秒；
+            success: function(data) {
+              	console.log(data);
+            	$('.order_route').html(data['route_name']);
+            	$('.order_date_span').html(data['order_date']);
+            	$('.start_date_span').html(data['start_city_place_date']);
+//          	$('.start_place_span').html(data['start_city_place']);
+//          	$('.order_price').html("￥"+data['order_price']);
+
+            	if(data['product_cate'] == 2){
+            		var product_node = "<div class='order_start_date'>"+
+							"<span>扣除次数： </span><span class='require_num'>"+data['require_num']+"次</span>"+
+						"</div>";
+					$(".route-cate").prepend(product_node);
+					var price_node = "<div class='order_start_date show_price'>"+
+										"<span>费&nbsp;&nbsp;&nbsp;&nbsp;用：</span><span class='order_price' style='color: red;'>￥0</span>"+
+									"</div>";			
+            		$('.route-cate').prepend(price_node);
+            		
+            		var product_cate = '会员免费';
+            		$('.product_cate').attr('data-product',2);
+            		$('.product_cate').attr('data-require',data['require_num']);
+            	}else{
+            		var price_node = "<div class='order_start_date show_price'>"+
+										"<span>费&nbsp;&nbsp;&nbsp;&nbsp;用：</span><span class='order_price' style='color: red;'>￥"+data['order_price']+"</span>"+
+									"</div>";			
+            		$('.route-cate').prepend(price_node);
+            		
+            		var product_cate = '精品';
+            		$('.product_cate').attr('data-product',3);
+            	}
+            	$('.product_cate').html(product_cate);
+            	
+//          	$('.require_num').html(data['require_num']+'次');
+            	$('.order_code').html(data['order_code']);
+            	
+            	if(data['order_status'] ==1){
+	                var new_status = "未支付";
+	            }else if(data['order_status'] ==2){
+	                var new_status = '已支付';
+	            }else if(data['order_status'] ==3){
+	                var new_status = '已申请退单';
+	            }else if(data['order_status'] ==4){
+	                var new_status = '已同意退单';
+	            }else if(data['order_status'] ==5){
+	                var new_status = '已退款';
+	            }else if(data['order_status'] ==6){
+	                var new_status = '已取消';
+	            }else if(data['order_status'] ==7){
+	                var new_status = '已推迟';
+	            }else if(data['order_status'] ==8){
+	                var new_status = '已成团';
+	            }else if(data['order_status'] ==9){
+	                var new_status = '已出行';
+	            }
+            	$('.order_status').html(new_status);
+        	},
+            error: function (xhr, type, errorThrown) {
+                //异常处理；
+                //console.log(type);
+                switch (type) {
+                    case "timeout":
+                        mui.toast('连接超时，请重试');
+                        break;
+                    default:
+                        mui.toast('请重试或重新登录');
+                }
+            }
+        });
+	});
+	
+	//支付
+	$(document).on('tap', '.route_order',function(){
+		if($('.product_cate').data('product') == 2){
+			var require = $('.product_cate').data('require');
+			if(confirm("本订单将扣除您"+require+"次免费机会，确定支付？")){
+				mui.ajax(config[0].url+'/index.php/pay_order_post', {
+		            data: {
+		            	order_id:order_id,
+		            	userid:userid,
+		            },
+		            dataType: 'json', //服务器返回json格式数据
+		            type: 'post', //HTTP请求类型
+		            timeout: 10000, //超时时间设置为10秒；
+		            success: function(data) {
+		            	if(data == 'ovretime'){
+		            		alert('支付时限已过，请稍后重新下单');return;
+		            	}else if(data == true){
+		            		alert('支付成功');
+		            		var html = 'order_list.html';
+							token_check(userid, html);
+		            	}else{
+		            		alert('支付失败');return;
+		            	}			            	
+		            },
+		   			error:function(xhr,type,errorThrown){
+		   				switch (type) {
+							case "timeout":
+								mui.toast('连接超时，请重试');
+								break;
+							default:
+								mui.toast('请重试或重新登录');
+						}
+		   			}
+		   		});
+		
+			}else{
+				return false;
+			}
+		}else if($('.product_cate').data('product') == 3){
+			alert('微信支付');
+		}else{
+			mui.toast('支付失败');return false;
+		}
+		
+	});
+
+
+</script>
+</html>

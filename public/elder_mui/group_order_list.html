@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>下单列表</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="css/mui.min.css">
+		<!--App自定义的css-->
+		<link rel="stylesheet" type="text/css" href="css/app.css"/>
+		<script src="js/config.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="js/jquery-latest.js"></script>
+		<script src="js/tk_check.js"></script>
+		<style>
+			.mui-table h4,.mui-table h5,.mui-table .mui-h5,.mui-table .mui-h6,.mui-table p{
+		        margin-top: 0;
+		    }
+		    .mui-table h4{
+		        line-height: 21px;
+		        font-weight: 500;
+		    }
+		
+		    .mui-table .oa-icon{
+		        position: absolute;
+		        right:0;
+		        bottom: 0;
+		    }
+		    .mui-table .oa-icon-star-filled{
+		        color:#f14e41;
+		    }
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+		    <a class="prevurl mui-icon mui-icon-left-nav mui-pull-left"></a> 
+		    <h1 class="mui-title">下单列表</h1>
+		</header>
+		<div class="mui-content">
+		    <ul class="mui-table-view mui-table-view-striped mui-table-view-condensed">
+		        <!--<li class="mui-table-view-cell">
+		            <div class="mui-table">
+		                <div class="mui-table-cell mui-col-xs-4">
+		                    <h4 class="mui-ellipsis">信息化进</h4>
+		                    <h5>订单编号</h5>
+		                    <h5>订单状态</h5>
+		                </div>
+		                <div class="mui-table-cell mui-col-xs-8">
+		                    <h4 class="mui-ellipsis">13812345678</h4>
+		                    <h5>申请人：李四</h5>
+		                    <h5>申请人：李四</h5>
+		                </div>
+		            </div>
+		        </li>-->
+		    </ul>
+		</div>
+	</body>
+	<script src="js/mui.min.js"></script>
+	<script>
+		mui.init({
+			swipeBack:true //启用右滑关闭功能
+		});
+		
+		var userid = window.localStorage.getItem('token');
+			var urll = window.location.href;
+			var place_id = urll.substr(urll.indexOf('=')+1);
+			
+		mui.ready(function() {
+			mui.ajax(config[0].url+'/index.php/group_order_list',{
+	   			data:{userid:userid,place_id:place_id},
+	   			type:'POST',
+	   			dataType:'json',
+	   			timeout:10000,
+	   			success:function(data){	
+	   				console.log(data);
+	   				for(var i=0;i<data.length;i++){
+	   					if(data[i]['status'] ==1){
+			                var status = "未支付";
+			            }else if(data[i]['status'] ==2){
+			                var status = '已支付';
+			            }else if(data[i]['status'] ==3){
+			                var status = '已申请退单';
+			            }else if(data[i]['status'] ==4){
+			                var status = '已同意退单';
+			            }else if(data[i]['status'] ==5){
+			                var status = '已退款';
+			            }else if(data[i]['status'] ==6){
+			                var status = '已取消';
+			            }else if(data[i]['status'] ==7){
+			                var status = '已推迟';
+			            }else if(data[i]['status'] ==8){
+			                var status = '已成团';
+			            }else if(data[i]['status'] ==9){
+			                var status = '已出行';
+			            }
+	   					var group_list = "<li class='mui-table-view-cell'>"+
+								            "<div class='mui-table'>"+
+								                "<div class='mui-table-cell mui-col-xs-4'>"+
+								                    "<h4 class='mui-ellipsis'>"+data[i]['real_name']+"</h4>"+
+								                    "<h5>订单编号</h5>"+
+								                    "<h5>订单状态</h5>"+
+								                "</div>"+
+								                "<div class='mui-table-cell mui-col-xs-8'>"+
+								                    "<h4 class='mui-ellipsis'>"+data[i]['mobile']+"</h4>"+
+								                    "<h5>"+data[i]['order_code']+"</h5>"+
+								                    "<h5>"+status+"</h5>"+
+								                "</div>"+
+								            "</div>"+
+								        "</li>";
+						$(".mui-table-view").append(group_list);
+	   				}
+					
+	   			},
+	   			error:function(xhr,type,errorThrown){
+	   				switch (type) {
+						case "timeout":
+							mui.toast('连接超时，请重试');
+							break;
+						default:
+							mui.toast('请重试或重新登录');
+					}
+	   			}
+   			});
+		});
+		//上一个页面的链接
+		$(document).on('tap','.prevurl',function(){
+			var html = document.referrer;
+	        token_check(userid, html);
+		});
+	</script>
+</html>

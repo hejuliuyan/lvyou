@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>组员列表</title>
+		<script src="js/config.js"></script>
+	    <script src="js/tk_check.js"></script>
+	    <script src="js/jquery-latest.js"></script>
+		<script src="js/jquery-3.1.0.js"></script>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/mui.indexedlist.css" rel="stylesheet" />
+		<style>
+			html,
+			body {
+				height: 100%;
+				overflow: hidden;
+			}
+			.mui-bar {
+				-webkit-box-shadow: none;
+				box-shadow: none;
+			}
+			
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">组员列表</h1>
+		</header>
+		<div class="mui-content">
+			<div id='list' class="mui-indexed-list">
+				<div class="mui-indexed-list-search mui-input-row mui-search">
+					<div class="mui-input-clear mui-indexed-list-search-input"></div>
+				</div>
+				<div class="mui-indexed-list-bar" style="height: 0;">
+					
+				</div>
+				<div class="mui-indexed-list-alert"></div>
+				<div class="mui-indexed-list-inner">
+					
+					<ul class="mui-table-view">
+				
+					</ul>
+				</div>
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/mui.indexedlist.js"></script>
+		<script type="text/javascript" charset="utf-8">
+			mui.init();
+			var userid = window.localStorage.getItem('token');
+		
+			
+			mui.ready(function() {
+				mui.ajax(config[0].url+'/index.php/group_crew',{
+		   			data:{userid:userid},
+		   			type:'POST',
+		   			dataType:'json',
+		   			timeout:10000,
+		   			success:function(data){	
+		   				console.log(data);
+		   				for(var i=0;i<data.length;i++){
+		   					var group_people = $("<li  class='mui-table-view-cell mui-indexed-list-item'>"+data[i]['real_name']+"&nbsp;&nbsp;"+data[i]['mobile']+"</li>");
+							$(".mui-table-view").append(group_people);
+		   				}
+						
+		   			},
+		   			error:function(xhr,type,errorThrown){
+		   				switch (type) {
+							case "timeout":
+								mui.toast('连接超时，请重试');
+								break;
+							default:
+								mui.toast('请重试或重新登录');
+						}
+		   			}
+	   			});
+			});
+			mui.ready(function() {
+				var header = document.querySelector('header.mui-bar');
+				var list = document.getElementById('list');
+				//calc hieght
+				list.style.height = (document.body.offsetHeight - header.offsetHeight) + 'px';
+				//create
+				window.indexedList = new mui.IndexedList(list);
+				$('.mui-indexed-list-bar').css('height',0);
+			});
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <title>线路详情</title>
+    <script src="js/jquery.js"></script>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+    <script src="js/mui.min.js"></script>
+    <script src="js/config.js"></script>
+    <script type="text/javascript" charset="UTF-8">
+        mui.init({
+           
+        });
+    </script>
+    <script src="js/jquery-latest.js"></script>
+    <style>
+    	.mui-bar-nav{
+    		background-color:#FF9933;
+    		height: 60px;
+    		overflow: hidden;
+    		display: none;
+    		
+    	}
+    	.mui-bar-tab{
+    		background-color:#FF9933;
+    	}
+        .mui-content {
+            background-color: #fff;
+        }
+		.route_cate_title{
+			width: 90%;
+			margin-left: 5%;
+			color:#FFFFFF;
+			/*text-align:center;*/
+			overflow: hidden;
+		}
+		.route_cate_return{
+			line-height: 60px;
+			font-size: 30px;
+			float：left;
+			color: #FFFFFF;
+		}
+		.route_cate_word{
+			margin-left: 28%;
+			line-height: 60px;
+			font-size: 30px;
+		}
+		
+		/*图片等信息//////////////////////////////////////////////////////////////////////////*/
+		.mui_content{
+			width:100%;
+			margin-bottom: 50px;
+			/*border:1px solid red;*/
+		}
+		.route_element{
+			width: 100%;
+			height: 180px;
+			background-size:100% 180px;
+			/*border:1px solid green;*/
+			position:relative;
+			repeat:no-repeat;
+			overflow: hidden;
+		}
+		/*图片顶部信息*/
+		.route_element_top{
+			width: 96%;
+			margin-top:10px;
+			margin-left: 2%;
+			height: 32px;
+			/*border:1px solid green;*/
+			overflow: hidden;
+			position:absolute;
+			left;0;
+			top:0;
+			overflow: hidden;
+		}
+		.route_top_return{
+			float:left;
+			width: 8%;
+			height: 100%;
+		}
+		.route_top_collect{
+			margin-left:3%;
+			float:left;
+			width: 8%;
+			height: 100%;
+		}
+		.route_top_name{
+			width: 58%;
+			float:left;
+			text-align: center;
+			line-height: 32px;
+			font-size:24px;
+			color: #FFFFFF;
+			font-weight: 600;
+		}
+		.route_top_share{
+			float: right;
+			width: 8%;
+			height: 100%;
+		}
+		/*图片底部信息*/
+		.route_element_bottom{
+			width: 100%;
+			height: 40px;
+			/*border:1px solid green;*/
+			overflow: hidden;
+			position:absolute;
+			left;0;
+			bottom:0;
+			background:rgba(0,0,0,0.2);
+		}
+		.route_discount_price{
+			line-height: 40px;
+			float:left;
+			color: red;
+			font-weight: 700;
+		}
+		.route_rated_price{
+			line-height: 40px;
+			float:left;
+			color: #FFFFFF;
+			font-weight: 700;
+			text-decoration:line-through;
+			overflow: hidden;
+			margin-left: 15%;
+		}
+		.route_label_img{
+			float:right;
+			margin-right: 3%;
+			overflow: hidden;
+			margin-top: 2px;
+		}
+		.route_label{
+			line-height: 40px;
+			float:right;
+			margin-right: 2%;
+			color: #FFFFFF;
+			font-weight: 700;
+			overflow: hidden;	
+		}
+		/*/*线路名称和客服///////////////////////////////////////////////////////////////*/
+		.route_name_service{
+			width: 100%;
+			background-color: #FFFFFF;
+			height: 60px;
+			overflow: hidden;
+		}
+		.route_name{
+			width: 84%;
+			height: 50px;
+			float: left;
+			margin-left: 3%;
+			margin-top: 5px;
+			color: #6699FF;
+			/*border: 1px solid green;*/
+			font-size: 20px;
+			line-height: 25px;
+			border-right:1px solid  #EFEFF4;
+		}
+		.route_service{
+			width: 10%;
+			height: 60px;
+			margin-top: 5px;
+			float: right;
+			margin-right: 3%;
+			overflow: hidden;
+			/*border: 1px solid blue;*/
+		}
+		.route_service_img{
+			float: right;
+			margin-top: 9px;
+		}
+		/*//出发城市目的地等/////////////////////////////////////////////*/
+
+    </style>
+</head>
+<body>
+<!--<header class="mui-bar mui-bar-nav">
+		<div class="route_cate_title">
+			<span class="route_cate_return detail_return"><</span><span class="route_cate_word">门票详情</span>
+		</div>
+</header>-->
+
+<div class="mui_content">
+	<!--线路图片-->
+	<div class="route_element" style="height: 200px;">
+		<!--顶部-->
+		<div class="route_element_top">
+			<span class="route_top_return detail_return"><img src="./wimages/route/return_u625.png"></span>
+			<span class="route_top_collect"></span>
+			<span class="route_top_name" style="font-size:18px">门票详情</span>
+		</div>
+		<img src="public/1.jpg" />
+	</div>
+	<!--线路名称-->
+	<div class="route_name_service">
+		<div class="route_name" style="color:#333;font-size: 18px;">随州随州市西游记公园市西游记公园</div>
+		<div class="route_service"><img class="route_service_img" src="./wimages/route/u562.png"></div>
+	</div>
+	<ul class="mui-table-view" style="margin-top: 5px;">
+		<li class="mui-table-view-cell mui-media">
+			<img class="mui-media-object mui-pull-left" src="public/u500.png">
+				<div class="mui-media-body">
+					<p style="margin-top: 10px;color: #333333;font-size:18px">上海市虹口区逸仙路58号</p>
+				</div>
+		</li>
+	</ul>
+	<div style="width:100%;height:70px;background-color: white;margin-top:5px;">
+		<div style="height:100%;width:60%;float: left;">
+			<img src="public/u627.png" style="width:16px;height: 16px;position: relative;left: 5px;top: 5px;"/>
+		<span style="margin-left: 8px;position: relative;top: 2px;font-size:15px;">成人票</span><br>
+		<div style="position: relative;left: 5px;top: 20px;float: left;">
+		<span style="text-decoration:line-through;font-size:15px;color: #333333;font-weight:bold;font-size:15px;">￥120.00</span>
+		<span style="color:#EB4F38;font-weight:bold;margin-left: 30px;">￥1200</span>
+		</div>	
+		</div>
+		<div style="height:100%;width:40%;float: right;">
+			<button type="button" class="mui-btn mui-btn-danger" style="position: relative;left: 60px;top: 20px;">预定</button>
+		</div>
+	</div>
+	<div style="margin-top: 3px;">
+		<div style="height:40px;width: 100%;background-color: white;">
+			<img src="public/u573.png" style="width:16px;height: 16px;position: relative;left: 5px;top: 12px;"/>
+			<span style="margin-left: 8px;position: relative;top: 10px;font-size:15px;">产品提示</span>
+		</div>
+		<div style="height:40px;width: 100%;background-color: white;margin-top: 1px;">
+			<span style="position: relative;left:5px;top: 10px;font-size: 15px;">提前一天预订</span>
+		</div>
+	</div>
+	<div style="width: 100%;margin-top: 10px;background-color:white;">
+		<div style="background-color:#6699FF;color:white;font-size: 16px;width: 130px;height:30px;text-align: center;position: relative;top: 10px;">
+			<span style="margin-top:7px">门票详情</span>
+		</div>
+		<div style="width:100%;height:100%;margin-top:60px；;margin-top: 20px;">
+			<div style="background-color:#D4E3FF;margin:10px auto;margin-right:10px;margin-left:10px;font-size:15px">
+				会UI上次UN四就在努力再
+				会UI上次UN四就在努力再开
+				会UI上次UN四就在努力再
+				会UI上次UN四就在努力再开
+				会UI上次UN四就在努力再
+			</div>
+		</div>
+	</div>
+	
+	<!--出发城市目的地-->	
+</body>	
+</html>

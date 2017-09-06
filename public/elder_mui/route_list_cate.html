@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>线路分类</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="css/mui.min.css">
+	    <link href="css/zx_personal.css" rel="stylesheet"/>
+	    <script src="js/mui.min.js"></script>
+	    <script src="js/config.js"></script>
+	    <script src="js/tk_check.js"></script>
+	    <script src="js/jquery-latest.js"></script>
+	    <style>
+    	
+		/*/////////////////////////////////////////////////////////////////////////////////////*/
+		.mui-table-view-chevron .mui-table-view-cell {
+		    padding-right: 3%;
+		    padding-left: 3%;
+		}
+		.route_element{
+			width: 100%;
+			height: 150px;
+			/*border:1px solid green;*/
+			position:relative;
+			background-size:100% 150px;
+			repeat:no-repeat;
+			overflow: hidden;
+		}
+		.route_element_bottom{
+			width: 60%;
+			height: 40px;
+			/*border:1px solid green;*/
+			overflow: hidden;
+			position:absolute;
+			left;0;
+			bottom:0;
+			/*filter:alpha(opacity:30);opacity:0.8;*/
+			background:rgba(0,0,0,0.2);
+		}
+		.route_discount_price{
+			line-height: 40px;
+			float:left;
+			color: red;
+			font-weight: 700;
+		}
+		.route_rated_price{
+			line-height: 40px;
+			float:right;
+			color: #FFFFFF;
+			font-weight: 700;
+			text-decoration:line-through;
+		}
+		/*线路名称节点*/
+		.route_name{
+			width: 100%;
+			height: 40px;
+			/*border:1px solid blue;*/
+			overflow: hidden;
+			color:#6699FF;
+			float:left;
+			line-height: 40px;
+			font-weight: 700;
+			text-decoration:underline;
+			cursor: pointer;
+			white-space:nowrap;
+			
+            text-overflow: ellipsis;/*溢出时...显示*/
+			
+		}
+		/*出发城市日期说明*/
+		.route_bottom_state{
+			width: 100%;
+			height: 40px;
+			/*border:1px solid blue;*/
+			overflow: hidden;
+		}
+		.route_start_city{
+			line-height: 40px;
+			float:left;
+			color: #554D4F;
+			font-weight: 700;
+		}
+		.route_start_date{
+			line-height: 40px;
+			float:right;
+			color: #554D4F;
+			font-weight: 700;
+		}
+	
+    </style>
+	</head>
+
+	<body>
+	
+		<!--下拉刷新容器-->
+		<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+			<div class="mui-scroll">
+				<!--下方数据列表-->
+				<ul class="mui-table-view mui-table-view-chevron">
+					
+				</ul>
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script>
+			var userid = window.localStorage.getItem('token');
+			mui.init({
+				pullRefresh: {
+					container: '#pullrefresh',
+					up: {
+						contentrefresh: '正在加载...',
+						callback: pullupRefresh
+					}
+				}
+			});
+	
+		
+			/**
+			 * 上拉加载具体业务实现
+			 */
+			function pullupRefresh() {
+				setTimeout(function() {
+				    
+					var cate_down_num = window.localStorage.getItem('cate_down_num');
+					var route_cate = window.localStorage.getItem('route_cate');
+					console.log(cate_down_num);console.log(route_cate);
+					mui('#pullrefresh').pullRefresh().endPullupToRefresh((++count > cate_down_num)); //参数为true代表没有更多数据了。
+					var table = document.body.querySelector('.mui-table-view');
+					var cells = document.body.querySelectorAll('.mui-table-view-cell');
+					
+					mui.ajax(config[0].url+'/index.php/route_list_cate_front',{
+			   			data:{route_cate:route_cate,userid:userid},
+			   			type:'POST',
+			   			dataType:'json',
+			   			timeout:10000,
+			   			success:function(data){
+			 				console.log(data);
+//							if(data == ''){
+//								alert("没有搜到结果");
+//								var html = 'route_list.html';
+//			        			token_check(userid, html);
+//							}
+							for (var i = cells.length, len = i + 3; i < len; i++) {
+								var li = document.createElement('li');
+								li.className = 'mui-table-view-cell';
+		//						li.innerHTML = '<a class="mui-navigate-right">Item ' + (i + 1) + '</a>';
+								if(data[i] == '' || data[i] == undefined || data[i] == null){
+									break;
+								}
+								if(data[i]['play_way']==1){
+		   							var play_way = '品质游';
+			   					}else if(data[i]['play_way']==2){
+			   						var play_way = '跟团游';
+			   					}else{
+			   						var play_way = '自驾游';
+			   					}
+			   					
+								li.innerHTML = "<div class='route_element' style=background-image:url("+config[0].url+"/Uploads/pic/"+data[i]['picture']+")" +" id="+data[i]['id']+">"+
+									"<div class='route_element_bottom'>"+
+										"<span class='route_discount_price'>￥"+data[i]['discount_price']+"/人</span>"+
+										"<span class='route_rated_price'>￥"+data[i]['rated_price']+"/人</span>"+
+									"</div>"+
+								"</div>"+
+								"<div class='route_name' id="+data[i]['id']+">"+"["+play_way+"]"+data[i]['route_name']+"</div>"+
+								"<div class='route_bottom_state'>"+
+									"<span class='route_start_city'>"+data[i]['new_city']+"</span>"+
+									"<span class='route_start_date'>"+data[i]['new_start_date']+"</span>"+
+								"</div>";
+								//$('.route_element').css('background-image',"url(/Uploads/pic/"+data[i]['picture']+")");
+								table.appendChild(li);
+							}
+						},
+			   			error:function(xhr,type,errorThrown){
+			   				switch (type) {
+								case "timeout":
+									mui.toast('连接超时，请重试');
+									break;
+								default:
+									mui.toast('请重试或重新登录');
+							}
+			   			}
+			   		});
+				}, 1000);
+			}
+			if (mui.os.plus) {
+				mui.plusReady(function() {
+					setTimeout(function() {
+						mui('#pullrefresh').pullRefresh().pullupLoading();
+					}, 1000);
+
+				});
+			} else {
+				mui.ready(function() {
+					mui('#pullrefresh').pullRefresh().pullupLoading();
+				});
+			}
+			
+			var count = 0;
+			 //获取详情
+			$(document).on('tap','.route_element',function(){
+				var id = $(this).attr("id");
+				var html = 'route_detail.html?id='+id;
+		        token_check(userid, html);
+			});
+		</script>
+	</body>
+
+</html>

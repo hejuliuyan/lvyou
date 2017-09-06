@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>首页</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<script src="js/jquery-1.7.2.min.js"></script>
+	<script src="js/config.js"></script>
+	<script src="js/mui.min.js"></script><script src="js/config.js"></script>
+	<script src="js/jquery-latest.js"></script>
+	<!--检测是否微信-->
+	<!--<script src="js/tk_check.js"></script>-->
+	<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+	<!--标准mui.css-->
+	<link rel="stylesheet" href="css/mui.min.css">
+	<link rel="stylesheet" href="css/css.css">
+
+	<style>
+		body {
+			background-color: #f2f2f2;
+		}
+		/*.mui-slider .mui-slider-group .mui-slider-item img{ height: 180px;}*/
+
+		footer li div {
+			margin-top: 0 !important;
+		}
+
+		.mui-grid-view.mui-grid-9 .mui-table-view-cell>a:not (.mui-btn) {
+			margin: -14px;
+			padding: 4px 0 2px 0;
+		}
+
+		.mui-table-view.mui-grid-view .mui-table-view-cell .mui-media-body {
+			font-size: 14px;
+		}
+
+		.mui-slider .mui-slider-group .mui-slider-item img {
+			height: 200px;
+		}
+
+		.mui-grid-view.mui-grid-9 {
+			margin: 0;
+			padding: 0;
+			background-color: #fff;
+		}
+
+		.mui-grid-view.mui-grid-9 {
+			border-top: none;
+			border-left: none;
+		}
+
+		.bottom_nav {
+			display: table-cell;
+			overflow: hidden;
+			width: 1%;
+			height: 50px;
+			text-align: center;
+			vertical-align: middle;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+			color: #929292;
+		}
+
+		.bottom_nav .mui-icon {
+			top: 3px;
+			width: 24px;
+			height: 24px;
+			padding-top: 0;
+			padding-bottom: 0;
+		}
+
+		.mui-bar-tab .bottom_nav .mui-icon~.mui-tab-label {
+			font-size: 11px;
+			display: block;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+		.mui-bar-tab{
+    		background-color:#FF9933;
+    	}
+		.index {
+			background-image: url(wimages/personal/u31.png);
+			background-size: 100%;
+			background-repeat: no-repeat;
+			width: 30px;
+			height: 30px;
+			background-position: center;
+			display: block;
+			margin: 0 auto;
+			margin-top: 3px;
+		}
+
+		.index_font {
+			font-size: 16px;
+			color: #FFFFFF;
+		}
+
+		.wd_font {
+			font-size: 16px;
+			color: #FFFFFF;
+		}
+		.load_font{
+			font-size: 16px;
+			color: #FFFFFF;
+		}
+		.load {
+			background-image: url(wimages/personal/u33.png);
+			background-size: 100%;
+			background-repeat: no-repeat;
+			width: 30px;
+			height: 30px;
+			background-position: center;
+			display: block;
+			margin: 0 auto;
+			margin-top: 3px;
+		}
+
+		.wd {
+			background-image: url(wimages/personal/u35.png);
+			background-size: 100%;
+			background-repeat: no-repeat;
+			width: 30px;
+			height: 30px;
+			background-position: center;
+			display: block;
+			margin: 0 auto;
+			margin-top: 3px;
+		}
+
+		.mui-grid-view.mui-grid-9 .mui-table-view-cell {
+			padding: 11px 9px;
+		}
+		.group_search{
+			 /*filter:alpha(opacity:30);opacity:0.3;*/
+			top:10px;
+			left: 10%;
+			width:80%;
+			height:40px;
+			position:fixed;
+		}
+		.search_border{
+			width:80%;
+			/*filter:alpha(opacity:30);opacity:0.2;*/
+			border: 1px solid $fff;
+			float: left;
+		}
+		.search_word{
+			height:40px;
+			line-height: 40px;
+			color: #fff;
+			float: left;
+			font-weight: 700;
+		}
+
+		.w_left{
+			margin-left: 0;
+			width: 45%;
+			height: 85px;
+			float: left;
+			/*border: 1px solid black;*/
+			margin-left: 0;
+			/*text-align: center;*/
+			color:#2FCB38;
+			font-weight: 800;
+			background-color: #fff;
+		}
+		
+		.w_right {
+			margin-left: 8%;
+			margin-right: 0;
+			width: 45%;
+			height: 85px;
+			float: left;
+			/*border: 1px solid black;*/
+			/*margin-left: 2%;*/
+			/*text-align: center;*/
+			color:#FF0301;
+			background-color: #fff;
+		}
+		.group_title{
+			overflow: hidden;
+		}
+		.index_img_title{
+			overflow: hidden;
+		}
+		.group_border_left{
+			margin-left: 17px;
+			margin-top: 10px;
+		}
+		.group_border_right{
+			margin-left: 17px;
+			margin-top: 10px;
+		}
+		.index_img_title_right{
+			overflow: hidden;
+
+			/*margin-top: 10px;
+			margin-right: 0;*/
+		}
+		.group_left{
+			/*margin-top: 10px;*/
+			overflow: hidden;
+		}
+		.group_img_left{
+			float: left;
+			
+		}
+		.index_img_left{
+			float: left;
+		}
+		.group_img_title_left{
+			height: 32px;
+			line-height: 32px;
+			color:#2FCB38;
+			font-weight: 700;
+			float: left;
+		}
+		.group_img_title_right{
+			height: 32px;
+			line-height: 32px;
+			color:red;
+			font-weight: 700;
+			float: left;
+		}
+		.pointer3_left{
+			color: red;
+			font-weight: 700;
+		}
+
+		.pic_one {
+			color:#2FCB38;
+			/*background-image: url(wimages/front/u95.png);*/
+			background-size: 100%;
+			background-repeat: no-repeat;
+			width: 55px;
+			height: 55px;
+			background-position: center;
+			display: block;
+			margin: 0 auto;
+			margin-top: 4px;
+		}
+
+
+		.pic_three {
+			color:#FF0301;
+			/*background-image: url(wimages/front/u103.png);*/
+			background-size: 100%;
+			background-repeat: no-repeat;
+			width: 55px;
+			height: 55px;
+			background-position: center;
+			display: block;
+			margin: 0 auto;
+			margin-top: 4px;
+		}
+		.pic_font {
+			font-weight:900 ;
+			font-size: 16px;
+		}
+
+		.index_center {
+			background-color: #f2f2f2;
+			color: #FF9933;
+			font-size:16px;
+			font-weight:900 ;
+			
+		}
+
+		.w96 {
+			overflow:hidden;
+			margin-top: 15px;
+			width: 100%;
+		}
+		/*.pointer_left{
+			float:left;
+		}*/
+		
+		.group_blue_word_left{
+			float:left;
+			color:#2FCB38;
+			font-weight: 700;
+		}
+		.group_blue_word_right{
+			float:right;
+			color:#2FCB38;
+			font-weight: 700;
+		}
+		.group_red_word_left{
+			float:left;
+			color:red;
+			font-weight: 700;
+		}
+		.group_red_word_right{
+			float:right;
+			color:red;
+			font-weight: 700;
+		}
+		
+		.pointer_right{
+			right:17px;
+			color:#2FCB38;
+			float:right;
+		}
+		.pointer2_right{
+			right:17px;
+			color:red;
+			font-weight: 800;
+			float:right;
+		}
+		.pointer3_right{
+			margin-right:17px;
+			color:#FF9933;;
+			float:right;
+		}
+
+		
+		.border_left{
+			width: 48%;
+			padding: 3%;
+			padding-bottom: 1%;
+			background-color: #fff;
+			float: left;
+		}
+		.border_right{
+			width: 48%;
+			padding: 3%;
+			padding-bottom: 1%;
+			background-color: #fff;
+			float: right;
+		}
+		.trip_title_index{
+			/*overflow: hidden;*/
+			margin-top:5px;
+		}
+		.img_title{
+			position: absolute;
+			left:17px;
+			font-weight: 600;
+			color: #FF9933;
+		}
+		.img_left{
+			/*width: 30%;*/
+			/*padding: 17px;*/
+			/*padding: 0;*/
+			overflow: hidden;
+			/*height:100px;*/
+			/*border:1px solid blue;*/
+		}
+		.img_right{
+			
+			
+			overflow: hidden;
+			/*height:100px;*/
+			/*border:1px solid blue;*/
+		}
+		.img_index{
+			height:100px;
+			width: 100%;
+		}
+		.trip_money{
+			float: left;
+			width: 40%;
+			font-weight: 600;
+			color: #FF9933;
+		}
+		.trip_word{
+			float: left;
+			width: 60%;
+			text-align: right;
+			font-weight: 600;
+			white-space: nowrap;/*禁止换行直到遇到br*/
+            text-overflow: ellipsis;/*溢出时...显示*/
+			overflow: hidden;
+
+		}
+	</style>
+</head>
+
+<body>
+
+	<nav class="mui-bar mui-bar-tab">
+		<a class="bottom_nav mui-active" href="#tabbar">
+			<span class="index"></span>
+			<span class="mui-tab-label index_font">首页</span>
+		</a>
+		<!--<a class="bottom_nav" href="#tabbar-with-chat">
+			<span class="mui-icon mui-icon-email"></span>
+			<span class="mui-tab-label">搜店</span>
+		</a> -->
+		<a class="bottom_nav load_info">
+			<span class="load"></span>
+			<span class="mui-tab-label load_font">线路</span>
+		</a>
+		<a class="bottom_nav w_info">
+			<span class="wd"></span>
+			<span class="mui-tab-label wd_font">我的</span>
+		</a>
+
+	</nav>
+	<!--滚动图片-->
+	<section id="slider" class="mui-slider">
+		<div class="mui-slider-group mui-slider-loop">
+			<!-- 额外增加的一个节点(循环轮播：第一个节点是最后一张轮播) src="wimages/front/u5.jpg"-->
+			<div class="mui-slider-item mui-slider-item-duplicate">
+				<a >
+					<img class="advertise adver3" >
+					<p class="mui-slider-title advertitle3"></p>
+				</a>
+			</div>
+			<div class="mui-slider-item">
+				<a >
+					<img class="advertise adver1" >
+					<p class="mui-slider-title advertitle1"></p>
+				</a>
+			</div>
+			<div class="mui-slider-item">
+				<a >
+					<img class="advertise adver2" >
+					<p class="mui-slider-title advertitle2"></p>
+				</a>
+			</div>
+			<div class="mui-slider-item">
+				<a >
+					<img class="advertise adver3" >
+					<p class="mui-slider-title advertitle3"></p>
+				</a>
+			</div>
+			<!-- 额外增加的一个节点(循环轮播：最后一个节点是第一张轮播) -->
+			<div class="mui-slider-item mui-slider-item-duplicate">
+				<a >
+					<img class="advertise adver1" >
+					<p class="mui-slider-title advertitle1"></p>
+				</a>
+			</div>
+		</div>
+		<div style="position: absolute;left:25%;" class="mui-slider-indicator">
+			<div class="mui-indicator mui-active"></div>
+			<div class="mui-indicator"></div>
+			<div class="mui-indicator"></div>
+		</div>
+		<!--搜索框-->
+		<!--<div class="group_search">
+			<div class="search_border">
+					<form>
+      					<input results="s" type="search" placeholder="搜索关键字">
+					</form>
+			</div>			
+			<div class="search_word">&nbsp;检索</div>
+		</div>-->
+	</section>
+	<!--彩票排列-->
+	<section>
+
+		<div class="w96">
+			<div class='border_left' >
+				<div class="img_left team_border" id="1">
+					<div class="group_title"><span class="group_blue_word_left">即刻成团</span><span class="group_blue_word_right">更多>></span></div>
+					
+					<div class="group_left" style='overflow: hidden;'>
+						<div class="group_img_left"><img src="wimages/front/index1.png" alt="" /></div>
+						<div class="group_img_title_left">&nbsp;&nbsp;&nbsp;已订 > 85%</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class='border_right'>
+				<div class="img_right team_border" id="2">
+					<div class='group_title'><span class="group_red_word_left">马上跟团</span><span class="group_red_word_right">更多>></span></div>
+					<div class="group_left" style='overflow: hidden;'>
+						<div class="index_img_left"><img src="wimages/front/index2.png" alt="" /></div>
+						<div class="group_img_title_right">&nbsp;&nbsp;&nbsp;余座 < 5%</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		
+		
+		<div class="trip_title_index trip_title_index1" product_cate="2"><span class="img_title">会员免费</span><span class="pointer3_right"> 更多>> </span></div>
+		<div class="w96" >
+			<div class="border_left">
+				<div class="img_left route_detail1 route_detail">
+					<div><img class="img_index free_price1" /></div>
+					<div><span class="trip_money trip_money1"></span><span class="trip_word trip_word1"></span></div>
+				</div>
+			</div>
+			
+			<div class="border_right">
+				<div class="img_right route_detail2 route_detail">
+					<div ><img class="img_index free_price2"/></div>
+					<div><span class="trip_money trip_money2"></span><span class="trip_word trip_word2"></span></div>
+				</div>
+			</div>
+			
+		</div>
+		
+		<div class="trip_title_index trip_title_index2" product_cate="1"><span class="img_title">最新尾单</span><span class="pointer3_right"> 更多>> </span></div>
+		<div class="w96" >
+			<div class="border_left">
+				<div class="img_left route_detail3 route_detail">
+					<div><img class="img_index discount_price1"/></div>
+					<div><span class="trip_money trip_money3"></span><span class="trip_word trip_word3"></span></div>
+				</div>
+			</div>
+			
+			<div class="border_right">
+				<div class="img_right route_detail4 route_detail">
+					<div ><img class="img_index discount_price2"/></div>
+					<div><span class="trip_money trip_money4"></span><span class="trip_word trip_word4"></span></div>
+				</div>
+			</div>
+			
+		</div>
+		
+	</section>
+	<!--主体底部图片-->
+	<section class="index_bot">
+		<div>
+			<!--	<img src="wimages/index_bot.png">-->
+		</div>
+	</section>
+
+	<script>
+	//微信自带返回按钮
+	pushHistory(); 
+    window.addEventListener("popstate", function(e) { 
+        //alert("我监听到了浏览器的返回按钮事件啦");//根据自己的需求实现自己的功能 
+        mui.openWindow({
+				url : 'index.html',
+				id : 'index.html',
+			});
+    }, false); 
+    function pushHistory() { 
+        var state = { 
+            title: "title", 
+            url: "#"
+        }; 
+        window.history.pushState(state, "title", "#"); 
+    }
+		    
+	//广告
+	$(function(){
+		mui.ajax(config[0].url+'/index.php/adver_show', {
+			data: {
+				
+			},
+			dataType: 'json', //服务器返回json格式数据
+			type: 'post', //HTTP请求类型
+			timeout: 10000, //超时时间设置为10秒；
+			success: function(data) {				
+				$('.adver1').attr('src',config[0].url+"/Uploads/pic/"+data[0][0]['picture']);
+				$('.adver2').attr('src',config[0].url+"/Uploads/pic/"+data[1][0]['picture']);
+				$('.adver3').attr('src',config[0].url+"/Uploads/pic/"+data[2][0]['picture']);
+				$('.adver1').attr('id',data[0][0]['id']);
+				$('.adver2').attr('id',data[1][0]['id']);
+				$('.adver3').attr('id',data[2][0]['id']);
+				$('.advertitle1').html(data[0][0]['route_name']);
+				$('.advertitle2').html(data[1][0]['route_name']);
+				$('.advertitle3').html(data[2][0]['route_name']);
+			},
+			error: function(xhr, type, errorThrown) {
+				//异常处理；
+				console.log(type);
+				switch (type) {
+					case "timeout":
+						mui.toast('连接超时，请重试');
+						break;
+					default:
+						mui.toast('请重试或重新登录');
+				}
+			}
+		});
+	});
+	$(document).on('tap', '.advertise', function() {
+		var id = $(this).attr("id");
+		var html = 'route_detail.html?id='+id;
+        token_check(userid, html);
+	});
+	/*----*/
+	var slider = mui("#slider");
+	slider.slider({
+		interval: 2000
+	});
+	//alert(config[0].url);
+		mui.init({
+			keyEventBind: {
+				backbutton: true
+			}
+		});
+
+		var first = null;
+		mui.back = function() {
+			if (!first) {
+				first = new Date().getTime();
+				mui.toast('再按一次退出应用');
+
+				setTimeout(function() {
+					first = null;
+				}, 2000);
+			} else {
+				if (new Date().getTime() - first < 2000) {
+					plus.runtime.quit();
+				}
+			}
+		};
+	</script>
+	<script>
+	/* 将链接存入缓存>>>*/
+	var prevurl = window.location.href;
+	window.localStorage.setItem('prevurl',prevurl);
+	/*<<<<<<*/
+	
+	//获取带token的链接
+		
+		var url = window.location.href;
+		var tk = url.substr(url.lastIndexOf('?') + 1, 2);
+		if (isWeiXin()) {
+			//从正常微信用户端进入(授权后第二次进入)
+			if (tk == 'tk') {
+				var url = window.location.href;
+				var token = url.substring(url.lastIndexOf('=') + 1, url.length);
+				var token = token.replace('#','');/*去掉#号*/
+				window.localStorage.setItem('token', token);
+				var userid = window.localStorage.getItem('token');
+			}
+		
+			var userid = window.localStorage.getItem('token');
+			if (userid == '' || userid == null || userid == undefined) {
+				mui.openWindow({
+					url: config[0].url+"/index.php/wx?tz=1",
+				});
+			}
+			
+			console.log(userid);
+			phone(userid);
+			wx_name(userid, 1);
+			//微信关闭按钮
+			
+			//微信内点击线路
+			$(document).on('tap', '.load_info', function() {
+				//alert(123);
+				var userid = window.localStorage.getItem('token');
+				var html = 'route_list.html';
+				token_check(userid, html);
+
+			});
+			//微信内点击我的
+			$(document).on('tap', '.w_info', function() {
+				//alert(123);
+				var userid = window.localStorage.getItem('token');
+				var html = 'zx_personal.html';
+				token_check(userid, html);
+
+			});
+
+		//不是微信：
+//		} else {
+//
+//			$(document).on('tap', '.w_info', function() {
+//				var userid = window.localStorage.getItem('token');
+//				var html = 'zx_personal.html';
+//				token_check(userid, html);
+//
+//			});
+//			//app内点击线路
+//			$(document).on('tap', '.load_info', function() {
+//				//alert(123);
+//				var userid = window.localStorage.getItem('token');
+//				var html = 'route_list.html';
+//				token_check(userid, html);
+//
+//			});
+//
+//		}
+
+//		//获取电话号码
+//		function phone(obj) {
+//			//var ul=config[0].url+'/index.php/get_phone';
+//			mui.ajax(config[0].url+'/index.php/get_phone', {
+//				data: {
+//					token: obj,
+//				},
+//				dataType: 'json', //服务器返回json格式数据
+//				type: 'post', //HTTP请求类型
+//				timeout: 10000, //超时时间设置为10秒；
+//				success: function(data) {
+//					if (typeof data == "string") {
+//						var data = eval('(' + data + ')');
+//					}
+//					//alert(123)
+//					window.localStorage.setItem('phone', data);
+//
+//				},
+//				error: function(xhr, type, errorThrown) {
+//					//异常处理；
+//					console.log(type);
+//					switch (type) {
+//						case "timeout":
+//							mui.toast('连接超时，请重试');
+//							break;
+//						default:
+//							mui.toast('请重试或重新登录');
+//					}
+//				}
+//			});
+//		}
+
+//获取用户微信相关信息
+		function wx_name(token, type) {
+			mui.ajax(config[0].url+'/index.php/wx_name', {
+				data: {
+					token: token,
+					type: type,
+				},
+				dataType: 'json', //服务器返回json格式数据
+				type: 'post', //HTTP请求类型
+				timeout: 10000, //超时时间设置为10秒；
+				success: function(data) {
+					if (typeof data == "string") {
+						var data = eval('(' + data + ')');
+					}
+					//console.dir(data.headimgurl);
+					window.localStorage.setItem('nickname', data.nickname);
+					window.localStorage.setItem('headimgurl', data.headimgurl);
+					//console.log(window.localStorage.getItem('nickname'));
+				},
+				error: function(xhr, type, errorThrown) {
+					//异常处理；
+					console.log(type);
+					switch (type) {
+						case "timeout":
+							mui.toast('连接超时，请重试');
+							break;
+						default:
+							mui.toast('请重试或重新登录');
+					}
+				}
+			});
+		}
+		//最新特价
+	$(function(){
+		mui.ajax(config[0].url+'/index.php/bargain_price', {
+				data: {
+					userid:userid,
+				},
+				dataType: 'json', //服务器返回json格式数据
+				type: 'post', //HTTP请求类型
+				timeout: 10000, //超时时间设置为10秒；
+				success: function(data) {
+					console.log(data);
+					if(data[0] == '' || data[0] == undefined || data[0] == null){
+						$('.route_detail3').html('暂无数据');
+						$('.route_detail3').css('height','110px');
+					}else{
+						$('.discount_price1').attr('src',config[0].url+"/Uploads/pic/"+data[0]['picture']);
+						$('.route_detail3').attr('id',data[0]['id']);
+						$('.trip_money3').html("￥"+data[0]['discount_price']);
+						$('.trip_word3').html(data[0]['route_name']);
+					}
+					
+					if(data[1] == '' || data[1] == undefined || data[1] == null){
+						$('.route_detail4').html('暂无数据');
+						$('.route_detail4').css('height','110px');
+					}else{
+						$('.discount_price2').attr('src',config[0].url+"/Uploads/pic/"+data[1]['picture']);
+						$('.route_detail4').attr('id',data[1]['id']);
+						$('.trip_money4').html("￥"+data[1]['discount_price']);
+						$('.trip_word4').html(data[1]['route_name']);
+					}
+					
+				},
+				error: function(xhr, type, errorThrown) {
+					//异常处理；
+					switch (type) {
+						case "timeout":
+							mui.toast('连接超时，请重试');
+							break;
+						default:
+							mui.toast('请重试或重新登录');
+					}
+				}
+		});
+			
+		mui.ajax(config[0].url+'/index.php/free_price', {
+			
+			
+				data: {
+					userid:userid,
+				},
+				dataType: 'json', //服务器返回json格式数据
+				type: 'post', //HTTP请求类型
+				timeout: 10000, //超时时间设置为10秒；
+				success: function(data) {
+					console.log(data);
+					if(data[0] == '' || data[0] == undefined || data[0] == null){
+						$('.route_detail1').html('暂无数据');
+						$('.route_detail1').css('height','110px');
+					}else{
+						$('.free_price1').attr('src',config[0].url+"/Uploads/pic/"+data[0]['picture']);
+						$('.route_detail1').attr('id',data[0]['id']);
+						$('.trip_money1').html("￥"+data[0]['discount_price']);
+						$('.trip_word1').html(data[0]['route_name']);
+					}
+					
+					if(data[1] == '' || data[1] == undefined || data[1] == null){
+						$('.route_detail2').html('暂无数据');
+						$('.route_detail2').css('height','110px');
+					}else{
+						$('.free_price2').attr('src',config[0].url+"/Uploads/pic/"+data[1]['picture']);
+						$('.route_detail2').attr('id',data[1]['id']);
+						$('.trip_money2').html("￥"+data[1]['discount_price']);
+						$('.trip_word2').html(data[1]['route_name']);
+					}
+				},
+				error: function(xhr, type, errorThrown) {
+					//异常处理；
+					switch (type) {
+						case "timeout":
+							mui.toast('连接超时，请重试');
+							break;
+						default:
+							mui.toast('请重试或重新登录');
+					}
+				}
+		});
+	});
+	var userid = window.localStorage.getItem('token');
+	//点击具体线路详情
+	$(document).on('tap', '.route_detail', function() {
+		var id = $(this).attr("id");
+		var html = 'route_detail.html?id='+id;
+        token_check(userid, html);
+	});
+	
+	//会员免费最新尾单
+	$(document).on('tap', '.trip_title_index', function() {
+		var product_cate = $(this).attr("product_cate");
+		var html = 'route_product_cate_main.html?product_cate='+product_cate;
+        token_check(userid, html);
+	});
+	
+	//即可成团
+	$(document).on('tap', '.team_border', function() {
+		var team_rate = $(this).attr("id");
+		var html = 'team_rate_main.html?team_rate='+team_rate;
+        token_check(userid, html);
+	});
+	
+	</script>
+</body>
+
+</html>

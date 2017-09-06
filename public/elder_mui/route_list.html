@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html>
+<head>
+		<meta charset="utf-8">
+		<title>线路列表</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title></title>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+    <link href="css/zx_personal.css" rel="stylesheet"/>
+    <script src="js/mui.min.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/tk_check.js"></script>
+    <script type="text/javascript" charset="UTF-8">
+        mui.init({
+           
+        });
+    </script>
+    <script src="js/jquery-latest.js"></script>
+    <style>
+    	.mui-row.mui-fullscreen>[class*="mui-col-"] {
+			height: 100%;
+			margin-top: 15px;
+		}
+		.mui-col-xs-3,
+		.mui-control-content {
+			overflow-y: auto;
+			height: 100%;
+		}
+		.mui-segmented-control .mui-control-item {
+			line-height: 50px;
+			width: 100%;
+		}
+		.mui-segmented-control.mui-segmented-control-inverted .mui-control-item.mui-active {
+			background-color: #fff;
+		}
+    /********************************************/
+    	.mui-bar-nav{
+    		background-color:#FF9933;
+    		height: 60px;
+    		overflow: hidden;
+    	}
+    	.mui-bar-tab{
+    		background-color:#FF9933;
+    	}
+        .mui-content {
+            background-color: #fff;
+        }
+		.group_search{
+			 /*filter:alpha(opacity:30);opacity:0.3;*/
+			margin-top:10px;
+			/*left: 15%;*/
+			width:100%;
+			overflow: hidden;
+		}
+		
+		.search_border{
+			
+			width:80%;
+			margin-left: 5%;
+			/*filter:alpha(opacity:30);opacity:0.8;*/
+			/*border: 1px solid $fff;*/
+			float: left;
+			/*background-color: #FFFFFF;*/
+		}
+		.search_input{
+			
+			height: 100%;
+			border:1px solid red;
+			/*background-color: #FFFFFF;*/
+		}
+		.search_word{
+			height:40px;
+			line-height: 40px;
+			font-size: 20px;
+			color: #fff;
+			float: left;
+			font-weight: 700;
+		}
+		/*/////////////////////////////////////////////////////////////////////////////////////*/
+        .index {
+            background-image: url(wimages/personal/u31.png);
+            background-size: 100%;
+            background-repeat: no-repeat;
+            width: 24px;
+            height: 22px;
+            background-position: center;
+            display: block;
+            margin: 0 auto;
+            margin-top: 3px;
+        }
+		.load {
+			background-image: url(wimages/personal/u33.png);
+			background-size: 100%;
+			background-repeat: no-repeat;
+			width: 30px;
+			height: 30px;
+			background-position: center;
+			display: block;
+			margin: 0 auto;
+			margin-top: 3px;
+		}
+        .wd_font {
+            font-size: 16px;
+            color:#FFFFFF;
+        }
+
+        .index_font {
+            font-size: 16px;
+            color:#FFFFFF;
+        }
+
+        .wd {
+            background-image: url(wimages/personal/u35.png);
+            background-size: 100%;
+            background-repeat: no-repeat;
+            width: 24px;
+            height: 22px;
+            background-position: center;
+            display: block;
+            margin: 0 auto;
+            margin-top: 3px;
+        }
+
+        .mui-grid-view.mui-grid-9 .mui-table-view-cell {
+            padding: 11px 9px;
+        }
+
+        .bottom_nav {
+            display: table-cell;
+            overflow: hidden;
+            width: 1%;
+            height: 50px;
+            text-align: center;
+            vertical-align: middle;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            color: #929292;
+        }
+		/*/////////////////////////////////////////////////////////////////////////////////////*/
+		.mui_content{
+			width:90%;
+			margin-left: 5%;
+			margin-top: 60px;
+			height: 640px;
+			/*border:1px solid red;*/
+		}
+	
+	
+    </style>
+</head>
+<body>
+<header class="mui-bar mui-bar-nav">
+    <!--搜索框-->
+		<div class="group_search">
+			<!--<div class="search_border">
+					<form>
+      					<input results="s" name="search_input" class="search_input" type="search" placeholder="请输入目的地、线路关键字">
+					</form>
+			</div>	-->
+			<div class="search_border">
+					<input id="search" results="s" name="search_input" type="search" class="search_input mui-input-speech mui-input-clear" style="background-color:ghostwhite;" placeholder="请输入目的地、线路关键字">
+			</div>
+			<div class="search_word">&nbsp;检索</div>
+		</div>
+</header>
+<nav class="mui-bar mui-bar-tab">
+    <a class="bottom_nav mui-active w_index" href="javascript:void(0)">
+        <span class="index"></span>
+        <span class="mui-tab-label index_font">首页</span>
+    </a>
+    <a class="bottom_nav load_info">
+			<span class="load"></span>
+			<span class="mui-tab-label wd_font">线路</span>
+		</a>
+    <a href="javascript:void(0)" class="bottom_nav w_info">
+        <span class="wd"></span>
+        <span class="mui-tab-label wd_font">我的</span>
+    </a>
+</nav>
+<div class="mui-content mui-row mui-fullscreen">
+	<div class="mui-col-xs-3">
+		<div id="segmentedControls" class="mui-segmented-control mui-segmented-control-inverted mui-segmented-control-vertical">
+		</div>
+	</div>
+	<div id="segmentedControlContents" class="mui-col-xs-9" style="border-left: 1px solid #c8c7cc;">
+		<div id="item1" class="mui-control-content mui-active">
+		</div>
+		<div id="item2" class="mui-control-content">
+		</div>
+		<div id="item3" class="mui-control-content">
+		</div>
+	</div>
+</div>
+
+</body>
+
+<script type="text/javascript" charset="UTF-8">
+//微信自带返回按钮
+	pushHistory(); 
+    window.addEventListener("popstate", function(e) { 
+        //alert("我监听到了浏览器的返回按钮事件啦");//根据自己的需求实现自己的功能 
+        mui.openWindow({
+				url : 'index.html',
+				id : 'index.html',
+			});
+    }, false); 
+    function pushHistory() { 
+        var state = { 
+            title: "title", 
+            url: "#"
+        }; 
+        window.history.pushState(state, "title", "#"); 
+    }
+    
+/* 将链接存入缓存>>>*/
+	var prevurl = window.location.href;
+	window.localStorage.setItem('prevurl',prevurl);
+	/*<<<<<<*/
+    var userid = window.localStorage.getItem('token');
+
+	mui.init({
+		swipeBack: true //启用右滑关闭功能
+	});
+	
+	
+	
+	  $(function(){  
+   		mui.ajax(config[0].url+'/index.php/route_destination',{
+   			data:{},
+   			type:'POST',
+   			dataType:'json',
+   			timeout:10000,
+   			success:function(data){
+   				
+   				console.log(data);
+   				var controls = document.getElementById("segmentedControls");
+				var contents = document.getElementById("segmentedControlContents");
+			
+				var html ='<a class="mui-control-item" href="#content1">周边游</a>'+
+						  '<a class="mui-control-item" href="#content2">国内游</a>'+
+						  '<a class="mui-control-item" href="#content3">出境游</a>';
+				controls.innerHTML = html;
+   				html = [];
+				var i = 1,
+				j = 1,
+				m = 4; //左侧选项卡数量+1
+				
+				for (i = 1; i < m; i++) {
+					html.push('<div id="content' + i + '" class="mui-control-content"><ul class="mui-table-view">');
+					var n = data[i].length+1; //每个选项卡列表数量+1
+					for (j = 1; j < n; j++) {
+						html.push('<li class="mui-table-view-cell route_dest" id=' + data[i][j-1].id + ' route_cate='+data[i][j-1].route_cate+'><a class="mui-navigate-right"> '+data[i][j-1].destination + '</a></li>');
+					}
+					html.push('</ul></div>');
+				}
+				contents.innerHTML = html.join('');
+				
+					
+				 //默认选中第一个
+				controls.querySelector('.mui-control-item').classList.add('mui-active');
+				contents.querySelector('.mui-control-content').classList.add('mui-active');
+   		
+   			},
+   			error:function(xhr,type,errorThrown){
+   				switch (type) {
+					case "timeout":
+						mui.toast('连接超时，请重试');
+						break;
+					default:
+						mui.toast('请重试或重新登录');
+				}
+   			}
+   		});
+	});
+	
+	$(document).on('tap', '.route_dest',function(){
+		var dest_id = $(this).attr('id');
+		var route_cate = $(this).attr('route_cate');
+		var html = 'route_dest_main.html?dest_id='+dest_id+'&route_cate='+route_cate;
+        token_check(userid, html);
+	});
+
+
+	//检索按钮
+	$(document).on('tap', '.search_word',function(){
+		var search_input = $("input[name=search_input]").val();
+		
+		if(search_input == ''){
+			return;
+		}
+		var html = 'route_search_main.html?search_input='+search_input;
+        token_check(userid, html);
+	});
+	
+	
+	//下方三按钮
+	$(document).on('tap', '.w_info', function () {
+        var html = 'zx_personal.html';
+        token_check(userid, html);
+
+    });
+
+    $(document).on('tap', '.w_index', function () {
+        var html = 'index.html';
+        token_check(userid, html);
+
+    });
+     $(document).on('tap', '.load_info', function () {
+        var html = 'route_list.html';
+        token_check(userid, html);
+
+    });
+    
+    
+    
+    
+    	
+</script>
+</html>

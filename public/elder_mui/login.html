@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>登录</title>
+    <script src="js/mui.min.js"></script><script src="js/config.js"></script>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+    <link href="css/login.css" rel="stylesheet"/>
+    <script src="js/tk_check.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" charset="UTF-8">
+      	mui.init({  
+			  keyEventBind:{  
+			    backbutton:true  
+			  }  
+			});
+			
+			var first=null;  
+			mui.back=function(){  
+			  if(!first){  
+			    first=new Date().getTime();  
+			    mui.toast('再按一次退出应用!');  
+			  
+			    setTimeout(function(){  
+			      first=null;  
+			    },2000);  
+			  }else{  
+			    if(new Date().getTime()-first<2000){  
+			      plus.runtime.quit();  
+			   }  
+			 }  
+			};  
+    </script>
+
+</head>
+<body>
+	<header class="mui-bar mui-bar-nav">
+	    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+	    <h1 class="mui-title">登录</h1>
+	</header>
+	<div class="mui-content">
+	    <div class="login">
+	    	 <div class="mui-input-row us">
+		       	<div class='head'><img src="wimages/personal/head.png" width='15' height="15"/></div>
+		        <input id='user' type="text" maxlength="11" onkeyup="value=this.value.replace(/\D+/g,'')"class="mui-input-clear inp" placeholder="请输入手机号码">
+		    </div>
+		     <div class="mui-input-row pass">
+		       	<div class='head'><img src="wimages/personal/lock.png" width='15' height="15"/></div>
+		        <input id='pass' type="password" class="mui-input-password inp" placeholder="请输入密码">
+		    </div>
+	    </div>
+	    
+	    <div class='mid_font'>
+	    	<div class='mm_login' ><input class='mdl' type="checkbox" />&nbsp;&nbsp;<span>30天免密登录</span></div>
+	    	<div class='foget_pass'>忘记密码？</div>
+	    	<div class='clear'></div>
+	    </div>
+	     <div class='sub_btn' ><button type="button" class="mui-btn mui-btn-danger sub log">登录</button></div>
+	      <div class='sub_btn' ><button type="button" class="mui-btn mui-btn-danger mui-btn-outlined sub reg">注册</button></div>
+	</div>
+</body>
+<script type="text/javascript">
+	var userid = window.localStorage.getItem("token");
+	console.log(userid);
+
+	//登录按钮
+	window.onload = function(){
+	    if(isWeiXin()){
+	        $('.mm_login').hide();
+	        $('.log').on('tap',function(){
+				var phone=$('#user').val();
+				var pass=$('#pass').val();
+				if(userid == null || userid == undefined || userid == ''){
+					var userid = '';
+				}
+				mui.ajax(config[0].url+'/index.php/ho_login',{
+					data:{mobile:phone,password:pass,userid:userid,wx_login:1,
+					},
+					dataType:'json',//服务器返回json格式数据
+				  	type:'post',//HTTP请求类型
+				  	timeout:10000,//超时时间设置为10秒；
+				 	success:function(data){
+				 		
+//					    if(typeof data == "string") {var data = eval('('+data+')');}
+					    if(data =='null'){
+					   		mui.toast('请等待审核通过');return;
+						}else if(data==false){
+					   		mui.toast('账号不存在或者密码错误');return;
+					    }else if(data[0].dangerpass==1){
+							alert('密码不安全，请到个人中心修改初始密码');
+						}
+					   		
+					   	window.localStorage.setItem('token',data[0].token_id);
+					   	window.localStorage.setItem('phone',phone);
+					   	var userid = data[0].token_id;
+					   	mui.ajax(config[0].url+'/index.php/wx_name',{
+							data:{token:userid,type:1},
+							dataType:'json',//服务器返回json格式数据
+							type:'post',//HTTP请求类型
+							timeout:10000,//超时时间设置为10秒；
+							success:function(data){
+								if(typeof data == "string") {var data = eval('('+data+')');}
+								//console.log(data);return;
+								
+								window.localStorage.setItem('nickname',data.nickname);
+								window.localStorage.setItem('headimgurl', data.headimgurl);
+								window.localStorage.setItem('login_bs','1');
+						
+								mui.openWindow({
+								    url: 'index.html', 
+								    id:'index',
+								    createNew:true
+								});
+								
+							},
+							error:function(xhr,type,errorThrown){
+								//异常处理；
+								console.log(type);
+								switch (type) {
+					              case "timeout":
+					                mui.toast('连接超时，请重试');
+					                break;
+					              default:
+					                mui.toast('请重试或重新登录');
+					            }
+							}
+						});
+					   	//alert(window.localStorage.getItem('userid'));
+					    	
+						
+								 
+			
+					},
+					error:function(xhr,type,errorThrown){
+					    //异常处理；
+					    console.log(type);
+					    switch (type) {
+			              case "timeout":
+			                mui.toast('连接超时，请重试');
+			                break;
+			              default:
+			                mui.toast('请重试或重新登录');
+			            }
+						}
+				});
+	
+			})
+	    }else{
+	    	$('.log').on('tap',function(){
+				var phone=$('#user').val();
+				var pass=$('#pass').val();//mui.toast(pass);return;
+				mui.ajax(config[0].url+'/index.php/ho_login',{
+					data:{mobile:phone,password:pass,wx_login:0,
+					},
+					dataType:'json',//服务器返回json格式数据
+					type:'post',//HTTP请求类型
+					timeout:10000,//超时时间设置为10秒；
+					success:function(data){
+						
+					    if(data =='null'){
+					   		mui.toast('请等待审核通过');return;
+						}else if(data==false){
+					   		mui.toast('账号不存在或者密码错误');return;
+					    }else if(data[0].dangerpass==1){
+							alert('密码不安全，请到个人中心修改初始密码');
+						}
+					   	if($('.mdl').is(':checked')){
+							var login_time = Date.parse(new Date())+30*24*3600;
+						
+							 window.localStorage.setItem('login_time',login_time);
+						}
+					   	window.localStorage.setItem('token',data[0]['token_id']);
+					   	window.localStorage.setItem('phone',phone);
+					   	window.localStorage.setItem('login_bs','1');
+				   	  
+
+					    mui.openWindow({
+						    url: 'index.html', 
+						    id:'index',
+						    createNew:true
+						});
+						
+							 
+		
+					},
+					error:function(xhr,type,errorThrown){
+						    //异常处理；
+						    //console.log(type);
+						    switch (type) {
+				              case "timeout":
+				                mui.toast('连接超时，请重试');
+				                break;
+				              default:
+				                mui.toast('请重试或重新登录');
+				            }
+					}
+				});
+	
+			})
+		}
+	}
+	
+
+function GetRequest() {
+  
+  var url = location.search; //获取url中"?"符后的字串
+   var theRequest = new Object();
+   if (url.indexOf("?") != -1) {
+      var str = url.substr(1);
+      strs = str.split("&");
+      for(var i = 0; i < strs.length; i ++) {
+         theRequest[strs[i].split("=")[0]]=(strs[i].split("=")[1]);
+      }
+   }
+   return theRequest;
+}
+
+	
+	//注册跳转
+	$('.reg').on('tap',function(){
+		 mui.openWindow({
+						    url: 'reg.html', 
+						    id:'reg',
+						    createNew:true
+						});
+	})
+	
+	//手机号匹配
+	function iphone(obj){   
+           
+        reg=/^1[3|4|5|7|8][0-9]{9}$/;
+        if(!reg.test(obj)){   
+           return false;
+        }else{   
+           return true;
+        }   
+    }   
+    
+    //密码匹配
+    function passwd(obj){   
+           
+        reg=/^\w{6,20}$/;    
+        if(!reg.test(obj)){   
+           return false;
+        }else{   
+           return true;   
+        }   
+    }
+   
+
+</script>
+</html>

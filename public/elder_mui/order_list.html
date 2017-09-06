@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>订单信息</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="css/mui.min.css">
+		<script src="js/config.js"></script>
+		<script src="js/jquery-latest.js"></script>
+		<script src="js/jquery-3.1.0.js"></script>
+		 <script src="js/mui.min.js"></script>
+	    <script src="js/config.js"></script>
+	    <script src="js/tk_check.js"></script>
+	
+	
+	</head>
+
+	<body>
+		
+		<style>
+			html,
+			body {
+				height: 100%;
+				overflow: hidden;
+			}
+			.mui-bar {
+				-webkit-box-shadow: none;
+				box-shadow: none;
+				background-color:#FF9933;
+				
+			}
+			.mui-title{
+				color: #FFFFFF;
+				font-weight: 700;
+				line-height: 45px;
+				font-size: 22px;
+			}
+			.mui-pull-left{
+				color: #FFFFFF;
+				font-weight: 700;
+				font-size: 20px;
+			}
+			.mui-control-content {
+				background-color: white;
+				/*min-height:80%;*/
+			}
+			.mui-control-content .mui-loading {
+				margin-top: 50px;
+			}
+			/*订单*/
+			.order_box{
+				width: 100%;
+				height: 130px;
+				/*border: 1px solid red;*/
+				overflow: hidden;
+			}
+			.order_box_top{
+				width: 100%;
+				height: 90px;
+				/*border: 1px solid red;*/
+				float: left;
+				overflow: hidden;
+			}
+			.order_box_top_img{
+				width: 30%;
+				height: 90px;
+				/*border: 1px solid red;*/
+				float: left;
+			}
+			.route_img{
+				width: 100%;
+				height: 90px;
+			}
+			.order_box_top_explain{
+				width: 68%;
+				height: 90px;
+				margin-left: 2%;
+				/*border: 1px solid green;*/
+				float: left;
+				overflow: hidden;
+			}
+			.explain_top{
+				width: 100%;
+				height: 60px;
+				/*border: 1px solid green;*/
+				float:left;
+				color:#6699FF;
+				line-height: 30px;
+				font-size: 20px;
+				font-weight: 700;
+				word-break: break-all;
+			    text-overflow: ellipsis;
+			    display: -webkit-box; /** 对象作为伸缩盒子模型显示 **/
+			    -webkit-box-orient: vertical; /** 设置或检索伸缩盒对象的子元素的排列方式 **/
+			    -webkit-line-clamp: 3; /** 显示的行数 **/
+			    overflow: hidden;  /** 隐藏超出的内容 **/
+
+			}
+			.explain_bottom{
+				width: 100%;
+				height: 30px;
+				/*border: 1px solid green;*/
+				float:left;
+				overflow: hidden;
+				line-height: 30px;
+				font-size:20px ;
+				font-weight: 700;
+			}
+			.explain_bottom_price{
+				height: 30px;
+				color: red;
+				float:left;
+			}
+			.explain_bottom_date{
+				height: 30px;
+				float:right;
+				color:#666666;
+				
+			}
+			
+			.order_box_bottom{
+				width: 100%;
+				height: 40px;
+				/*border: 1px solid blue;*/
+				float: left;
+				overflow: hidden;
+				line-height: 35px;
+				font-weight: 700;
+			}
+			.order_code{
+				width: 55%;
+				height: 35px;
+				/*border: 1px solid blue;*/
+				float: left;
+				overflow: hidden;
+				line-height: 35px;
+				font-size: 10px;
+				font-weight: 700;
+			}
+			.payoff,.nopay{
+				border: 1px solid red;
+				height: 35px;
+				float: right;
+				color: red;
+				margin-right: 5%;
+			}
+			.charge_back{
+				border: 1px solid #68B3C8;
+				height: 35px;
+				float: right;
+				color:#68B3C8;
+			}
+			.charge_pay{
+				height: 35px;
+				float: right;
+				color:#68B3C8;
+			}
+			.nav_border{
+				background-color:#6699FF;
+				line-height: 50px;
+				height: 50px;
+				width: 100%;
+				text-align: center;
+				color:#FFFFFF;
+				font-weight: 700;
+				cursor: pointer;
+			}
+		</style>
+		<header class="mui-bar mui-bar-nav">
+			<a href="zx_personal.html" class="mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">订单信息</h1>
+		</header>
+		<div class="mui-content">
+			<div id="slider" class="mui-slider">
+				<div id="sliderSegmentedControl" class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted mui-segmented-control-primary">
+					<a class="mui-control-item" href="#item1mobile">
+						待支付
+					</a>
+					<a class="mui-control-item" href="#item2mobile">
+						已支付
+					</a>
+					<a class="mui-control-item" href="#item3mobile">
+						退  单
+					</a>
+				</div>
+				
+				<div id="sliderProgressBar" class="mui-slider-progress-bar mui-col-xs-4"></div>
+				<div class="mui-slider-group">
+					<div id="item1mobile" class="mui-slider-item mui-control-content mui-active">
+						<div id="scroll1" class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<!--<ul class="mui-table-view">
+									<li class="mui-table-view-cell">
+										<div class="order_box">
+											<div class="order_box_top">
+												<div class="order_box_top_img"></div>
+												<div class="order_box_top_explain">
+													<div class="explain_top"></div>
+													<div class="explain_bottom"><span class="explain_bottom_price">生态防护</span><span class="explain_bottom_date">儿童故事</span></div>
+												</div>
+											</div>
+											<div class="order_box_bottom"> <span class='order_code'></span><span class="charge_back">&nbsp;&nbsp;退&nbsp;单&nbsp;&nbsp;</span><span class="nopay">&nbsp;&nbsp;支&nbsp;付&nbsp;&nbsp;</span></div>
+										</div>
+									</li>
+									
+								</ul>-->
+							</div>
+						</div>
+					</div>
+					<div id="item2mobile" class="mui-slider-item mui-control-content">
+						<div id="scroll2" class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<div class="mui-loading">
+									<div class="mui-spinner">
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+					<div id="item3mobile" class="mui-slider-item mui-control-content">
+						<div id="scroll3" class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<div class="mui-loading">
+									<div class="mui-spinner">
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--<nav class="nav_border  mui-bar mui-bar-tab">	
+			返回>个人中心
+		</nav>-->
+		<script>
+			pushHistory(); 
+		    window.addEventListener("popstate", function(e) { 
+		        //alert("我监听到了浏览器的返回按钮事件啦");//根据自己的需求实现自己的功能 
+		        mui.openWindow({
+						url : 'zx_personal.html',
+						id : 'zx_personal.html',
+					});
+		    }, false); 
+		    function pushHistory() { 
+		        var state = { 
+		            title: "title", 
+		            url: "#"
+		        }; 
+		        window.history.pushState(state, "title", "#"); 
+		    }
+
+//		document.addEventListener('plusready',function () {
+//      // 在这里调用plus api
+//	        plus.key.addEventListener('backbutton', function() {  
+//				    if (confirm('确认退出？')) {  
+//				        plus.runtime.quit();  
+//				    }  
+//				}, false);
+//  	},false);
+		　 
+
+//		var oldback = mui.back;
+//		mui.back = function() {
+//		    alert("确定返回？");return;
+//		    oldback();
+//		}
+		
+		
+		var clintheight = window.screen.availHeight-120;
+			console.log(clintheight);
+		$('.mui-control-content').css('min-height',clintheight);
+		
+		var userid = window.localStorage.getItem('token');
+			mui.init({
+				swipeBack: false
+			});
+			(function($) {
+				$('.mui-scroll-wrapper').scroll({
+					indicators: true //是否显示滚动条
+				});
+				//待支付
+				mui.ajax(config[0].url+'/index.php/order_nopay', {
+		            data: {
+		            	userid:userid,
+		            },
+		            dataType: 'json', //服务器返回json格式数据
+		            type: 'post', //HTTP请求类型
+		            timeout: 10000, //超时时间设置为10秒；
+		            success: function(data) {
+		            	console.log(data);
+		            	var item1 = document.getElementById('item1mobile');
+		            	var html_ul = "<ul class='mui-table-view'>";
+		            	var html1 = '';
+		            	for(var i=0;i<data.length;i++){    
+		            		if(data[i][0]['play_way']==1){
+								var play_way = '品质游';
+							}else if(data[i][0]['play_way']==2){
+								var play_way = '跟团游';
+							}else{
+								var play_way = '自驾游';
+							}
+		            		var html1 = "<li class='mui-table-view-cell' >"
+		            						+"<div class='order_box'>"
+												+"<div class='order_box_top' id="+data[i][0]['order_id']+">"
+													+"<div class='order_box_top_img' ><img class='route_img' src="+config[0].url+"/Uploads/pic/"+data[i][0]['picture']+" /></div>"
+													+"<div class='order_box_top_explain'>"
+														+"<div class='explain_top' >["+play_way+"]"+data[i][0]['route_name']+"</div>"
+														+"<div class='explain_bottom'><span class='explain_bottom_price'>￥"+data[i][0]['order_price']+"</span><span class='explain_bottom_date'>"+data[i][0]['new_date']+"</span></div>"
+													+"</div>"
+												+"</div>"
+												+"<div class='order_box_bottom'> <span class='order_code'>单号："+data[i][0]['order_code']+"</span><span class='charge_back cancel_order' id="+data[i][0]['order_id']+">&nbsp;&nbsp;取消订单&nbsp;&nbsp;</span><span class='nopay' id="+data[i][0]['order_id']+">&nbsp;&nbsp;支&nbsp;付&nbsp;&nbsp;</span></div>"
+											+"</div>"
+									+"</li>"+html1;
+		            	}
+		            	item1.querySelector('.mui-scroll').innerHTML = html_ul+html1+"</ul>";
+		            },
+		   			error:function(xhr,type,errorThrown){
+		   				switch (type) {
+							case "timeout":
+								mui.toast('连接超时，请重试');
+								break;
+							default:
+								mui.toast('请重试或重新登录');
+						}
+		   			}
+	   			});
+	   			
+	   			//已完成已退单
+//				var html2 = '<ul class="mui-table-view"><li class="mui-table-view-cell">第二个选项卡子项-1</li><li class="mui-table-view-cell">第二个选项卡子项-2</li><li class="mui-table-view-cell">第二个选项卡子项-3</li><li class="mui-table-view-cell">第二个选项卡子项-4</li><li class="mui-table-view-cell">第二个选项卡子项-5</li></ul>';
+				//var html3 = '<ul class="mui-table-view"><li class="mui-table-view-cell">第三个选项卡子项-1</li><li class="mui-table-view-cell">第三个选项卡子项-2</li><li class="mui-table-view-cell">第三个选项卡子项-3</li><li class="mui-table-view-cell">第三个选项卡子项-4</li><li class="mui-table-view-cell">第三个选项卡子项-5</li></ul>';
+				var item2 = document.getElementById('item2mobile');
+				var item3 = document.getElementById('item3mobile');
+				document.getElementById('slider').addEventListener('slide', function(e) {
+					if (e.detail.slideNumber === 1) {
+						if (item2.querySelector('.mui-loading')) {
+							setTimeout(function() {
+								//已支付完成
+//								item2.querySelector('.mui-scroll').innerHTML = html2;
+								mui.ajax(config[0].url+'/index.php/order_payoff', {
+						            data: {
+						            	userid:userid,
+						            },
+						            dataType: 'json', //服务器返回json格式数据
+						            type: 'post', //HTTP请求类型
+						            timeout: 10000, //超时时间设置为10秒；
+						            success: function(data) {
+						            	console.log(data);
+						            	var html_ul = "<ul class='mui-table-view'>";
+						            	var html2 = '';
+						            	for(var i=0;i<data.length;i++){    
+						            		if(data[i][0]['play_way']==1){
+												var play_way = '品质游';
+											}else if(data[i][0]['play_way']==2){
+												var play_way = '跟团游';
+											}else{
+												var play_way = '自驾游';
+											}
+						            		var html2 = "<li class='mui-table-view-cell' >"
+						            						+"<div class='order_box'>"
+																+"<div class='order_box_top' id="+data[i][0]['order_id']+">"
+																	+"<div class='order_box_top_img'><img class='route_img' src="+config[0].url+"/Uploads/pic/"+data[i][0]['picture']+" /></div>"
+																	+"<div class='order_box_top_explain'>"
+																		+"<div class='explain_top'>["+play_way+"]"+data[i][0]['route_name']+"</div>"
+																		+"<div class='explain_bottom'><span class='explain_bottom_price'>￥"+data[i][0]['order_price']+"</span><span class='explain_bottom_date'>"+data[i][0]['new_date']+"</span></div>"
+																	+"</div>"
+																+"</div>"
+																+"<div class='order_box_bottom'> <span class='order_code'>单号："+data[i][0]['order_code']+"</span><span class='charge_pay'>&nbsp;&nbsp;"+data[i][0]['new_status']+"&nbsp;&nbsp;</span><span class='payoff' payback_show="+data[i][0]['payback_show']+" id="+data[i][0]['order_id']+">&nbsp;&nbsp;退&nbsp;单&nbsp;&nbsp;</span></div>"
+															+"</div>"
+													+"</li>"+html2;
+						            	}
+						            	item2.querySelector('.mui-scroll').innerHTML = html_ul+html2+"</ul>";
+							            $(".payoff").each(function(){
+							                var payback_show = this.getAttribute('payback_show');
+							                console.log(payback_show);
+							                if(payback_show == 0){
+							                    this.parentNode.removeChild(this);
+							                }
+							            });
+        								
+						            },
+						   			error:function(xhr,type,errorThrown){
+						   				switch (type) {
+											case "timeout":
+												mui.toast('连接超时，请重试');
+												break;
+											default:
+												mui.toast('请重试或重新登录');
+										}
+						   			}
+					   			});
+							}, 500);
+						}
+					} else if (e.detail.slideNumber === 2) {
+						//退单退款等
+						if (item3.querySelector('.mui-loading')) {
+							setTimeout(function() {
+									mui.ajax(config[0].url+'/index.php/order_back', {
+						            data: {
+						            	userid:userid,
+						            },
+						            dataType: 'json', //服务器返回json格式数据
+						            type: 'post', //HTTP请求类型
+						            timeout: 10000, //超时时间设置为10秒；
+						            success: function(data) {
+						            	console.log(data);
+						            	var html_ul = "<ul class='mui-table-view'>";
+						            	var html3 = '';
+						            	for(var i=0;i<data.length;i++){    
+						            		if(data[i][0]['play_way']==1){
+												var play_way = '品质游';
+											}else if(data[i][0]['play_way']==2){
+												var play_way = '跟团游';
+											}else{
+												var play_way = '自驾游';
+											}
+						            		var html3 = "<li class='mui-table-view-cell'>"
+						            						+"<div class='order_box'>"
+																+"<div class='order_box_top'  id="+data[i][0]['order_id']+">"
+																	+"<div class='order_box_top_img'><img class='route_img' src="+config[0].url+"/Uploads/pic/"+data[i][0]['picture']+" /></div>"
+																	+"<div class='order_box_top_explain'>"
+																		+"<div class='explain_top'>["+play_way+"]"+data[i][0]['route_name']+"</div>"
+																		+"<div class='explain_bottom'><span class='explain_bottom_price'>￥"+data[i][0]['order_price']+"</span><span class='explain_bottom_date'>"+data[i][0]['new_date']+"</span></div>"
+																	+"</div>"
+																+"</div>"
+															+"<div class='order_box_bottom'><span class='order_code'>单号："+data[i][0]['order_code']+"</span> <span class='charge_pay'>&nbsp;&nbsp;"+data[i][0]['new_status']+"&nbsp;&nbsp;</span></div>"
+															+"</div>"
+													+"</li>"+html3;
+						            	}
+						            	item3.querySelector('.mui-scroll').innerHTML = html_ul+html3+"</ul>";
+						            },
+						   			error:function(xhr,type,errorThrown){
+						   				switch (type) {
+											case "timeout":
+												mui.toast('连接超时，请重试');
+												break;
+											default:
+												mui.toast('请重试或重新登录');
+										}
+						   			}
+					   			});
+							}, 500);
+						}
+					}
+				});
+//				var sliderSegmentedControl = document.getElementById('sliderSegmentedControl');
+//				$('.mui-input-group').on('change', 'input', function() {
+//					if (this.checked) {
+//						sliderSegmentedControl.className = 'mui-slider-indicator mui-segmented-control mui-segmented-control-inverted mui-segmented-control-' + this.value;
+//						//force repaint
+//						sliderProgressBar.setAttribute('style', sliderProgressBar.getAttribute('style'));
+//					}
+//				});
+			})(mui);
+			
+			
+			//返回个人中心
+			$(document).on('tap', '.nav_border',function(){
+				var html = 'zx_personal.html';
+		        token_check(userid, html);
+			});
+			
+	//预订跳转法协议页
+//	$(document).on('tap', '.nopay',function(){
+//		var order_id = $(this).attr('id');
+//		var html = 'pay_confirm.html?order_id='+order_id;
+//		token_check(userid, html);	
+//	});
+
+	//原支付
+	$(document).on('tap', '.nopay',function(){
+		
+		var order_id = $(this).attr('id');
+		console.log(order_id);
+		mui.ajax(config[0].url+'/index.php/pay_order', {
+            data: {
+            	order_id:order_id,
+            	userid:userid,
+            },
+            dataType: 'json', //服务器返回json格式数据
+            type: 'post', //HTTP请求类型
+            timeout: 10000, //超时时间设置为10秒；
+            success: function(data) {
+            	console.log(data);
+            	if(data == null){
+            		alert('支付已晚，余座不足');return;
+            	}else if(data['payway'] ==0){
+            		alert('支付宝微信支付');
+            		
+            	}else if(data['payway'] ==1){
+            		if(confirm("本订单将扣除您"+data['msg']+"次免费机会，确定支付？")){
+            			 
+            		}else{
+            			return false;
+            		}
+            		
+            	}else{
+            		alert('支付失败');return;
+            	}
+            	mui.ajax(config[0].url+'/index.php/pay_order_post', {
+		            data: {
+		            	order_id:order_id,
+		            	userid:userid,
+		            },
+		            dataType: 'json', //服务器返回json格式数据
+		            type: 'post', //HTTP请求类型
+		            timeout: 10000, //超时时间设置为10秒；
+		            success: function(data) {
+		            	console.log(data);
+		            	if(data == true){
+		            		alert('支付成功');
+		            		var html = 'order_list.html';
+							token_check(userid, html);
+		            	}else{
+		            		alert('支付失败');
+		            	}			            	
+		            },
+		   			error:function(xhr,type,errorThrown){
+		   				switch (type) {
+							case "timeout":
+								mui.toast('连接超时，请重试');
+								break;
+							default:
+								mui.toast('请重试或重新登录');
+						}
+		   			}
+		   		});
+            },
+   			error:function(xhr,type,errorThrown){
+   				switch (type) {
+					case "timeout":
+						mui.toast('连接超时，请重试');
+						break;
+					default:
+						mui.toast('请重试或重新登录');
+				}
+   			}
+		});
+	});
+	//取消订单
+	$(document).on('tap', '.cancel_order',function(){
+		var order_id = $(this).attr('id');
+		console.log(order_id);
+		if(confirm("确定取消退单？")){
+			mui.ajax(config[0].url+'/index.php/cancel_order', {
+	            data: {
+	            	order_id:order_id,
+	            	userid:userid,
+	            },
+	            dataType: 'json', //服务器返回json格式数据
+	            type: 'post', //HTTP请求类型
+	            timeout: 10000, //超时时间设置为10秒；
+	            success: function(data) {
+	            	console.log(data);
+	            	if(data == true){
+	            		mui.toast('取消订单成功');
+	            		var html = 'order_list.html';
+						token_check(userid, html);
+	            	}else{
+	            		mui.toast('取消订单失败');
+	            		return;
+	            	}
+	            	
+	            },
+	   			error:function(xhr,type,errorThrown){
+	   				switch (type) {
+						case "timeout":
+							mui.toast('连接超时，请重试');
+							break;
+						default:
+							mui.toast('请重试或重新登录');
+					}
+	   			}
+			});
+		}else{
+			return false;
+		}
+
+	});
+	//退单
+	$(document).on('tap', '.payoff',function(){
+		var order_id = $(this).attr('id');
+		console.log(order_id);
+		if(confirm("确认退单？")){
+			mui.ajax(config[0].url+'/index.php/pay_chargeback', {
+	            data: {
+	            	order_id:order_id,
+	            	userid:userid,
+	            },
+	            dataType: 'json', //服务器返回json格式数据
+	            type: 'post', //HTTP请求类型
+	            timeout: 10000, //超时时间设置为10秒；
+	            success: function(data) {
+	            	console.log(data);
+	            	if(data == true){
+	            		mui.toast('申请退单成功');
+	            		var html = 'order_list.html';
+						token_check(userid, html);
+	            	}else{
+	            		mui.toast('申请退单失败');
+	            		return;
+	            	}
+	            	
+	            },
+	   			error:function(xhr,type,errorThrown){
+	   				switch (type) {
+						case "timeout":
+							mui.toast('连接超时，请重试');
+							break;
+						default:
+							mui.toast('请重试或重新登录');
+					}
+	   			}
+			});
+		}else{
+			return false;
+		}
+
+	});
+	
+	//订单详情页
+	$(document).on('tap', '.order_box_top',function(){
+		var order_id = $(this).attr('id');
+		var html = 'order_detail.html?order_id='+order_id;
+		token_check(userid, html);
+	});
+			
+		</script>
+
+	</body>
+
+</html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="css/mui.min.css">
+		<script src="js/jquery.js"></script>
+    	<script src="js/config.js"></script>
+		<style>
+    	*{font-family: "微软雅黑";margin: 0px;padding: 0px;}
+    	#menu, #menu li {float: left;list-style:none; /* 将默认的列表符号去掉 */padding:0; /* 将默认的内边距去掉 */margin:0; /* 将默认的外边距去掉 */}
+		#menu li{width: 20%;height:100%;padding:10px;text-align:center;	}
+		.img{height:100%;width: 100%;border-radius:50%;margin-bottom: -7px;}
+		.wz{color: #666;width:100%;font-size: 13px;}
+		.goods{width:100%;height: 180px;margin: 0px;padding: 0px;margin-bottom: -6px;}
+		.js{color: #fff;width:100%;font-size: 13px;}
+		.mui-card{width:100%;border-radius:8px;}
+		.mui-card-content-inner,.mui-card{margin: 0px;padding: 0px;}
+		.mui-slider{height:200px;}
+		.adver1,.adver2,.adver3{height: 100%;width: 100%;}
+    	</style>
+	</head>
+
+	<body>
+		<nav class="mui-bar mui-bar-tab">
+			<a href="index.html">
+				<span class="mui-tab-label">首页</span>
+			</a>
+			<a href="route.html">
+				<span class="mui-tab-label">线路</span>
+			</a>
+			<a href="ticket.html">
+				<span class="mui-tab-label">门票</span>
+			</a>
+			<a href="mine.html">
+				<span class="mui-tab-label">我的</span>
+			</a>
+		</nav>
+		<!--下拉刷新容器-->
+		<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+			<div class="mui-scroll">
+				<div class="mui-slider">
+				  <div class="mui-slider-group mui-slider-loop">
+				    <div class="mui-slider-item mui-slider-item-duplicate"><a href="#"><img class="adver3" /></a></div>
+				    <div class="mui-slider-item"><a href="#"><img class="adver1" /></a></div>
+				    <div class="mui-slider-item"><a href="#"><img class="adver2" /></a></div>
+				    <div class="mui-slider-item"><a href="#"><img class="adver3" /></a></div>
+				    <div class="mui-slider-item mui-slider-item-duplicate"><a href="#"><img class="adver1" /></a></div>
+				  </div>
+				</div>
+			<ul id="menu" >
+				<a href="route.html" target="_self"><li><img src="public/u67.png" class="img"/><span class="wz">会员专区</span></li></a>
+				<a><li><img src="public/u71.png" class="img"/><span class="wz">度假专题</span></li></a>
+				<a><li><img src="public/u73.png" class="img"/><span class="wz">田园采摘</span></li></a>
+				<a><li><img src="public/u75.png" class="img"/><span class="wz">亲子乐园</span></li></a>
+				<a><li><img src="public/u83.png" class="img"/><span class="wz">私人订制</span></li></a>
+			</ul>
+			<div class='mui-card'></div>
+		</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script>
+				$(function(){
+				//计算可以下拉的次数
+				mui.ajax(config[0].url+'/num', {
+					data: {},
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					success: function(data) {
+						console.log(data);
+						window.localStorage.setItem('count',data);
+					},
+					error: function(xhr, type, errorThrown) {
+						//异常处理；
+						console.log(type);
+						switch (type) {
+							case "timeout":
+								mui.toast('连接超时，请重试');
+								break;
+							default:
+								mui.toast('请重试或重新登录');
+						}
+					}
+				});	
+			//加载广告
+		mui.ajax(config[0].url+'/ad', {
+			data: {		
+			},
+			dataType: 'json', //服务器返回json格式数据
+			type: 'post', //HTTP请求类型
+			timeout: 10000, //超时时间设置为10秒；
+			success: function(data) {
+				$('.adver1').attr('src',config[0].url+"/Uploads/pic/"+data[0][0]['picture']);
+				$('.adver2').attr('src',config[0].url+"/Uploads/pic/"+data[1][0]['picture']);
+				$('.adver3').attr('src',config[0].url+"/Uploads/pic/"+data[2][0]['picture']);
+				$('.adver1').attr('id',data[0][0]['id']);
+				$('.adver2').attr('id',data[1][0]['id']);
+				$('.adver3').attr('id',data[2][0]['id']);
+
+			},
+			error: function(xhr, type, errorThrown) {
+				//异常处理；
+//				console.log(type);
+				switch (type) {
+					case "timeout":
+						mui.toast('连接超时，请重试');
+						break;
+					default:
+						mui.toast('请重试或重新登录');
+				}
+			}
+		});
+		var gallery = mui('.mui-slider');
+		gallery.slider({
+	  	interval:5000//自动轮播周期，若为0则不自动播放，默认为0；
+	});
+});
+			mui.init({
+				pullRefresh: {
+					container: '#pullrefresh',
+					up: {
+						contentrefresh: '正在加载...',
+						auto:true,
+						callback: pullupRefresh,
+						contentnomore:'没有更多数据了'
+					}
+				}
+			});
+			var count = 0;
+			var num=window.localStorage.getItem('count');
+			/**
+			 * 上拉加载具体业务实现
+			 */
+			function pullupRefresh() {
+				setTimeout(function() {
+					mui('#pullrefresh').pullRefresh().endPullupToRefresh((++count > num)); //参数为true代表没有更多数据了。
+					mui.ajax(config[0].url+'/goods', {
+					data: {page:count},
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					success: function(data) {
+						var rest=data.cells;
+						console.log(rest);
+						var inser='';
+						for(var i=0;i<5;i++){
+							inser+="<div class='mui-card'><div class='mui-card-content'><div class='mui-card-content-inner'><a href='#'><img class='goods' src="+config[0].url+'/Uploads/pic/'+ data[i]['picture']+" /></a></div></div><div class='mui-card-footer'><a class='mui-card-link' style='line-height:13px'>"+data[i]['route_name']+"</a></div></div>";
+						}
+						$("div.mui-card:last").after(inser);
+//						$("#menu").after(inser);
+//						table.appendChild(li);
+//						
+					},
+					error: function(xhr, type, errorThrown) {
+						//异常处理；
+						console.log(type);
+						switch (type) {
+							case "timeout":
+								mui.toast('连接超时，请重试');
+								break;
+							default:
+								mui.toast('请重试或重新登录');
+						}
+					}
+				});
+				}, 1500);
+			}	
+	</script>
+
+</html>

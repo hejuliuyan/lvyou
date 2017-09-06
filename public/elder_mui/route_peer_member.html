@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>出行人员</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/mui.indexedlist.css" rel="stylesheet" />
+		<script src="js/config.js"></script>
+	    <script src="js/tk_check.js"></script>
+	     <script src="js/jquery-latest.js"></script>
+		<script src="js/jquery-3.1.0.js"></script>
+		<script type="text/javascript" charset="utf-8">
+			
+		</script>
+		
+		<style>
+			html,
+			body {
+				height: 100%;
+				overflow: hidden;
+			}
+			.mui-bar {
+				-webkit-box-shadow: none;
+				box-shadow: none;
+				background-color:#FF9933;
+				
+			}
+			.mui-indexed-list{
+				overflow-y: auto;
+			}
+			.mui-title{
+				color: #FFFFFF;
+				font-weight: 700;
+				line-height: 45px;
+				font-size: 22px;
+			}
+			#done.mui-disabled{
+				font-weight: 700;
+				line-height: 45px;
+				color: #FFFFFF;
+			}
+			.mui-pull-left{
+				color: #FFFFFF;
+				font-weight: 700;
+				font-size: 20px;
+			}
+			.select_all{
+				float:right;
+				cursor:pointer;
+				color:dodgerblue;
+				font-weight: 600;
+				
+			}
+			
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">出行人员</h1>
+			<a id='done' class="mui-btn mui-btn-link mui-pull-right mui-btn-blue mui-disabled">完成</a>
+		</header>
+		<div class="mui-content">
+			<div id='list' class="mui-indexed-list">
+				
+				<div class="mui-indexed-list-alert"></div>
+				<div class="mui-indexed-list-inner">
+					
+					<ul class="mui-table-view">
+						<li data-group="A" class="mui-table-view-divider mui-indexed-list-group">本人<span class="select_all">全选</span></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/mui.indexedlist.js"></script>
+		
+		<script type="text/javascript" charset="utf-8">
+		//页面高度
+		var clintheight = window.screen.availHeight-45;
+		console.log(clintheight);
+		$('.mui-indexed-list').css('height',clintheight);
+		
+		var userid = window.localStorage.getItem('token');
+		var urll = window.location.href;
+		var id = urll.substr(urll.indexOf('=')+1);
+			mui.init();
+			$(function(){
+					//同行人员填充数据
+				mui.ajax(config[0].url+'/index.php/route_peer',{
+		   			data:{userid:userid},
+		   			type:'POST',
+		   			dataType:'json',
+		   			timeout:10000,
+		   			success:function(data){
+		   				var peer_member =window.localStorage.getItem('peer_member');
+		   				if(peer_member == '' || peer_member == null){
+		   					var group_leader = $("<li class='mui-table-view-cell mui-indexed-list-item mui-checkbox mui-left' id="+data[0]['id']+"><input type='checkbox' name='test'  value="+data[0]['id']+"/>"+data[0]['real_name']+"</li>");
+						}else{	
+							var peer_member = peer_member.split(",");
+							if(peer_member.indexOf(data[0]['id'].toString()) == -1){
+								var group_leader = $("<li class='mui-table-view-cell mui-indexed-list-item mui-checkbox mui-left' id="+data[0]['id']+"><input type='checkbox' name='test' value="+data[0]['id']+"/>"+data[0]['real_name']+"</li>");
+							}else{
+								var group_leader = $("<li class='mui-table-view-cell mui-indexed-list-item mui-checkbox mui-left' id="+data[0]['id']+"><input type='checkbox' name='test' checked='checked' value="+data[0]['id']+"/>"+data[0]['real_name']+"</li>");
+							}
+		   				}
+						
+		   				$(".mui-table-view").append(group_leader);
+		   				if(data[0]['role']==0){
+		   					$(".mui-table-view").append("<li class='mui-table-view-divider mui-indexed-list-group'>组员</li>");
+		   					var peer_num = data[0]['crew'].length;
+		   					
+   							for(var i=0;i<peer_num;i++){
+   								if(peer_member == '' || peer_member == null){
+   									var group_peer = $("<li class='mui-table-view-cell mui-indexed-list-item mui-checkbox mui-left' id="+data[0]['crew'][i]['id']+"><input type='checkbox' name='test' value="+data[0]['crew'][i]['id']+"/>"+data[0]['crew'][i]['real_name']+"&nbsp;"+data[0]['crew'][i]['mobile']+"</li>");
+   								}else{
+   									if(peer_member.indexOf(data[0]['crew'][i]['id'].toString()) == -1){
+   										var group_peer = $("<li class='mui-table-view-cell mui-indexed-list-item mui-checkbox mui-left' id="+data[0]['crew'][i]['id']+"><input type='checkbox' name='test' value="+data[0]['crew'][i]['id']+"/>"+data[0]['crew'][i]['real_name']+"&nbsp;"+data[0]['crew'][i]['mobile']+"</li>");
+	   								}else{
+	   									var group_peer = $("<li class='mui-table-view-cell mui-indexed-list-item mui-checkbox mui-left' id="+data[0]['crew'][i]['id']+"><input type='checkbox' name='test' checked='checked' value="+data[0]['crew'][i]['id']+"/>"+data[0]['crew'][i]['real_name']+"&nbsp;"+data[0]['crew'][i]['mobile']+"</li>");
+	   								}
+			   						
+   								}
+   								$(".mui-table-view").append(group_peer);
+		   					}
+		   				}
+
+		   			},
+		   			error:function(xhr,type,errorThrown){
+		   				switch (type) {
+							case "timeout":
+								mui.toast('连接超时，请重试');
+								break;
+							default:
+								mui.toast('请重试或重新登录');
+						}
+		   			}
+	   			});
+			});
+			mui.ready(function() {
+			
+//	   			//mui框架
+				var header = document.querySelector('header.mui-bar');
+				var list = document.getElementById('list');
+				var done = document.getElementById('done');
+				//calc hieght
+//				list.style.height = (document.body.offsetHeight - header.offsetHeight) + 'px';
+				//create
+//				window.indexedList = new mui.IndexedList(list);
+				//done event
+				done.addEventListener('tap', function() {
+					var checkboxArray = [].slice.call(list.querySelectorAll('input[type="checkbox"]'));
+					var checkedValues = [];
+					checkboxArray.forEach(function(box) {
+						if (box.checked) {
+							checkedValues.push(box.parentNode.id);
+						}
+					});	
+					window.localStorage.setItem('peer_member',checkedValues);
+					window.localStorage.setItem('route_id',id);
+					var html = 'route_detail.html?id='+id;
+        			token_check(userid, html);
+				}, false);
+				
+//				$(function(){
+//					var peer_member =window.localStorage.getItem('peer_member');
+//					var peer_member = peer_member.split(",");
+////					window.localStorage.setItem('peer_member',peer_member);
+//					console.log(peer_member);
+//					var checkboxpeer = $("input[type=checkbox]");
+//					console.log(checkboxpeer);
+//					 for(i=0;i<checkboxpeer.length;i++){
+//				        for(j=0;j<peer_member.length;j++){
+//	 						if(checkboxpeer[i].value == peer_member[j]){
+//								$("input[name='test']").each(function() { 
+//									$(this).attr("checked", true); 
+//								});
+////				                checkboxpeer[i].checked = true;
+////				                break
+//				            }
+//				        }
+//				    }
+//				});
+					
+				
+			
+				
+				
+				
+				mui('.mui-indexed-list-inner').on('change', 'input', function() {
+					var count = list.querySelectorAll('input[type="checkbox"]:checked').length;
+					var value = count ? "完成(" + count + ")" : "完成";
+					done.innerHTML = value;
+					if (count) {
+						if (done.classList.contains("mui-disabled")) {
+							done.classList.remove("mui-disabled");
+						}
+					} else {
+						if (!done.classList.contains("mui-disabled")) {
+							done.classList.add("mui-disabled");
+						}
+					}
+				});
+			});
+			
+			//全选和清空
+			$(document).on('tap', '.select_all',function(){
+				var select_all = $('.select_all').html();
+				
+				if(select_all=='全选'){ 
+					$("input[name='test']").each(function(){this.checked=true;}); 
+					$('.select_all').html("清空");
+				}else{ 
+					$("input[name='test']").each(function(){this.checked=false;}); 
+					$('.select_all').html("全选");
+				} 
+				var count = list.querySelectorAll('input[type="checkbox"]:checked').length;
+				var value = count ? "完成(" + count + ")" : "完成";
+				done.innerHTML = value;
+				if (count) {
+						if (done.classList.contains("mui-disabled")) {
+							done.classList.remove("mui-disabled");
+						}
+					} else {
+						if (!done.classList.contains("mui-disabled")) {
+							done.classList.add("mui-disabled");
+						}
+					}
+			});
+	
+				
+				
+			
+				
+		
+			
+		</script>
+	</body>
+
+</html>

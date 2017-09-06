@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <title>线路详情</title>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+    <link href="css/zx_personal.css" rel="stylesheet"/>
+	<link rel="stylesheet" type="text/css" href="css/app.css" />
+	<link rel="stylesheet" type="text/css" href="css/mui.picker.min.css" />
+    <script src="js/mui.min.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/tk_check.js"></script>
+     <script src="js/jquery-latest.js"></script>
+	<script src="js/jquery-3.1.0.js"></script>
+	<script src="js/mui.picker.min.js"></script>
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script type="text/javascript" charset="UTF-8">
+        mui.init({
+           
+        });
+    </script>
+    <script src="js/jquery-latest.js"></script>
+    <style>
+    	.mui-bar-nav{
+    		background-color:#FF9933;
+    		height: 60px;
+    		overflow: hidden;
+    		display: none;
+    		
+    	}
+    	.mui-bar-tab{
+    		background-color:#FF9933;
+    	}
+        .mui-content {
+            background-color: #fff;
+        }
+		.route_cate_title{
+			width: 90%;
+			margin-left: 5%;
+			color:#FFFFFF;
+			/*text-align:center;*/
+			overflow: hidden;
+		}
+		.route_cate_return{
+			line-height: 60px;
+			font-size: 30px;
+			float：left;
+			color: #FFFFFF;
+		}
+		.route_cate_word{
+			margin-left: 28%;
+			line-height: 60px;
+			font-size: 30px;
+		}
+		
+		/*图片等信息//////////////////////////////////////////////////////////////////////////*/
+		.mui_content{
+			width:100%;
+			margin-bottom: 50px;
+			/*border:1px solid red;*/
+		}
+		.route_element{
+			width: 100%;
+			height: 180px;
+			background-size:100% 180px;
+			/*border:1px solid green;*/
+			position:relative;
+			repeat:no-repeat;
+			overflow: hidden;
+		}
+		/*图片顶部信息*/
+		.route_element_top{
+			width: 96%;
+			margin-top:10px;
+			margin-left: 2%;
+			height: 32px;
+			/*border:1px solid green;*/
+			overflow: hidden;
+			position:absolute;
+			left;0;
+			top:0;
+			overflow: hidden;
+			/*background:rgba(0,0,0,0.2);*/
+		}
+		.route_top_return{
+			float:left;
+			width: 8%;
+			height: 100%;
+		}
+		.route_top_collect{
+			margin-left:3%;
+			float:left;
+			width: 8%;
+			height: 100%;
+		}
+		.route_top_name{
+			width: 58%;
+			float:left;
+			text-align: center;
+			line-height: 32px;
+			font-size:24px;
+			color: #FFFFFF;
+			font-weight: 600;
+		}
+		.route_top_share{
+			float: right;
+			width: 8%;
+			height: 100%;
+		}
+		/*图片底部信息*/
+		.route_element_bottom{
+			width: 100%;
+			height: 40px;
+			/*border:1px solid green;*/
+			overflow: hidden;
+			position:absolute;
+			left;0;
+			bottom:0;
+			background:rgba(0,0,0,0.2);
+		}
+		.route_discount_price{
+			line-height: 40px;
+			float:left;
+			color: red;
+			font-weight: 700;
+		}
+		.route_rated_price{
+			line-height: 40px;
+			float:left;
+			color: #FFFFFF;
+			font-weight: 700;
+			text-decoration:line-through;
+			overflow: hidden;
+			margin-left: 15%;
+		}
+		.route_label_img{
+			float:right;
+			margin-right: 3%;
+			overflow: hidden;
+			margin-top: 2px;
+		}
+		.route_label{
+			line-height: 40px;
+			float:right;
+			margin-right: 2%;
+			color: #FFFFFF;
+			font-weight: 700;
+			overflow: hidden;	
+		}
+		/*/*线路名称和客服///////////////////////////////////////////////////////////////*/
+		.route_name_service{
+			width: 100%;
+			background-color: #FFFFFF;
+			height: 60px;
+			overflow: hidden;
+		}
+		.route_name{
+			width: 84%;
+			height: 50px;
+			float: left;
+			margin-left: 3%;
+			margin-top: 5px;
+			color: #6699FF;
+			/*border: 1px solid green;*/
+			font-size: 20px;
+			line-height: 25px;
+			border-right:1px solid  #EFEFF4;
+		}
+		.route_service{
+			width: 10%;
+			height: 60px;
+			margin-top: 5px;
+			float: right;
+			margin-right: 3%;
+			overflow: hidden;
+			/*border: 1px solid blue;*/
+		}
+		.route_service_img{
+			float: right;
+			margin-top: 9px;
+		}
+		/*//出发城市目的地等/////////////////////////////////////////////*/
+		.route_selsect{
+			margin-top: 10px;
+			width: 100%;
+			background-color: #FFFFFF;
+			height: 50px;
+			overflow: hidden;
+		}
+		.route_left_border{
+			width: 46%;
+			height: 40px;
+			/*border: 1px solid blue;*/
+			margin-left: 3%;
+			margin-top: 5px;
+			float: left;
+			border-right:1px solid  #EFEFF4;
+			overflow: hidden;
+		}
+		.route_right_border{
+			width: 46%;
+			height: 40px;
+			/*border: 1px solid blue;*/
+			margin-left: 2%;
+			margin-top: 5px;
+			float: left;
+			overflow: hidden;
+			
+		}
+		.parame_img{
+			float:left;
+			width: 15%;
+			margin-top: 4px;
+			
+		}
+		.route_parame_img{
+			width:100%;
+		}
+		.route_parame{
+			width:80% ;
+			height: 40px;
+			line-height: 40px;
+			
+			float:left;
+			font-weight: 700;
+			color:#5E5E5E;
+			/*white-space:nowrap;
+			overflow: hidden;
+            text-overflow: ellipsis;/*溢出时...显示*/
+			
+		}
+		.route_parame_title{
+			color:#5E5E5E;
+			line-height: 40px;
+		}
+		/*可定日期//////////////////////////////////////////////*/
+		.route_selsect_date{
+			margin-top: 10px;
+			width: 100%;
+			background-color: #FFFFFF;
+			height: 40px;
+			overflow: hidden;
+		}
+		
+		.route_date_left{
+			width: 89%;
+			height: 40px;
+			/*border: 1px solid blue;*/
+			margin-left: 3%;
+			float: left;
+			overflow: hidden;
+		}
+		.route_date_right{
+			width: 5%;
+			height: 40px;
+			line-height: 40px;
+			/*border: 1px solid blue;*/
+			float: left;
+			overflow: hidden;
+			
+		}
+		
+		.route_peer_city{
+			width:93% ;
+			height: 40px;
+			line-height: 40px;
+			/*border: 1px solid red;*/
+			float:left;
+			font-weight: 700;
+			color:#5E5E5E;
+			/*white-space:nowrap;
+			overflow: hidden;
+            text-overflow: ellipsis;/*溢出时...显示*/
+			
+		}
+		.route_parame_title_date{
+			color:#5E5E5E;
+			line-height: 40px;
+			width: 30%;
+			float:left;
+		}
+		.route_date_right_span{
+			font-size: 25px;
+			float: right;
+			color:limegreen;
+		}
+		.date_parame_img{
+			float:left;
+			width: 20px;
+			margin-top: 10px;
+			
+		}
+		.route_date_parame_img{
+			width:100%;
+		}
+		.route_start_date{
+			display: inline-block;
+			width: 70%;
+			float:left;
+			white-space:nowrap;
+			overflow: hidden;
+            text-overflow: ellipsis;
+		}
+		.route_peer{
+			display: inline-block;
+			width: 70%;
+			float:left;
+			white-space:nowrap;
+			overflow: hidden;
+            text-overflow: ellipsis;
+			
+		}
+		/*线路提示///////////////////////////////////////////////////*/
+		.route_route_prompt{
+			margin-top: 2px;
+			width: 100%;
+			background-color: #FFFFFF;
+			height: 45px;
+			overflow: hidden;
+		}
+		.route_route_prompt_word{
+			width: 94%;
+			height: 45px;
+			font-size: 20px;
+			/*border: 1px solid blue;*/
+			margin-left: 3%;
+			float: left;
+			overflow: hidden;
+		}
+		/*<!--富文本按钮-->//////////////////////////////////////////////*/
+		.route_ue_button{
+			margin-top: 10px;
+			width: 100%;
+			background-color: #FFFFFF;
+			height: 40px;
+			/*border: 1px solid blue;*/
+			overflow: hidden;
+		}
+		.ue_button{
+			width: 33%;
+			margin-left: 0.5%;
+			height: 40px;
+			border: 1px solid #68B3C8;
+			float:left;
+			text-align: center;
+			line-height: 40px;
+			color:#68B3C8;
+		}
+		/*显示框*/
+		.route_ue_border{
+			width: 100%;
+			background-color: #FFFFFF;
+			padding-top: 10px;
+			padding-bottom: 10px;
+			
+		}
+		.ue_border{
+			width: 94%;
+			margin-left: 3%;
+			/*background-color: #D4E3FF;*/
+			word-break:break-all;
+			/*border:1px solid green;*/
+		}
+		.ue_border img{
+			display:block;
+			max-width:100%;
+			height:auto;
+		}
+		.ue_border iframe{
+			max-width:100%;
+			min-height:250px;
+		}
+		.route_journey{
+			background-color: #6699FF;
+			color:#FFFFFF;
+			
+		}
+		.cost_explain_border,.schedule_guide_border{
+			display: none;
+		}
+		.nav_border{
+			background-color:#EFEFF4;
+			/*height: 50px;*/
+			width: 100%;
+			/*margin-top: 10px;*/
+		}
+		.route_order{
+			width:80%;
+			margin-left: 10%;
+			margin-top: 10px;
+			background-color: #6799FD;
+			height: 40px;
+			line-height: 30px;
+			text-align: center;
+			color:#FFFFFF;
+			font-weight: 700;
+			cursor: pointer;
+			
+		}
+		
+		
+		
+		
+    </style>
+</head>
+<body>
+<header class="mui-bar mui-bar-nav">
+		<div class="route_cate_title">
+			<span class="route_cate_return detail_return"><</span><span class="route_cate_word">线路详情</span>
+		</div>
+</header>
+
+<div class="mui_content">
+	<!--线路图片-->
+	<div class="route_element">
+		<!--顶部-->
+		<div class="route_element_top">
+			<span class="route_top_return detail_return"><img src="wimages/route/return_u625.png"></span>
+			<span class="route_top_collect"></span>
+			<span class="route_top_name">线路详情</span>
+			<!--<span class="route_top_share"><img src="./wimages/route/share_u623.png"></span>-->
+		</div>
+		<!--底部-->
+		<div class="route_element_bottom">
+			<span class="route_discount_price"></span>
+			<span class="route_rated_price"></span>
+			<span class="route_label"></span>
+			<span class="route_label_img"></span>			
+		</div>
+	</div>
+	<!--线路名称-->
+	<div class="route_name_service">
+		<div class="route_name"></div>
+		<div class="route_service"><img class="route_service_img" src="wimages/route/u562.png"></div>
+	</div>
+	<!--出发城市目的地-->
+	<div class="route_selsect">
+		<div class="route_left_border">
+			<div class="parame_img"><img class="route_parame_img" src="wimages/route/chu.png"></div>
+			<div class="route_parame"><span	class="route_parame_title">&nbsp;出发城市：</span><span class="route_start_city"></span></div>
+		</div>
+		<div class="route_right_border">
+			<div class="parame_img"><img class="route_parame_img" src="wimages/route/dao.png"></div>
+			<div class="route_parame"><span	class="route_parame_title">&nbsp;目的地：</span><span class="route_destination"></span><span>&nbsp;<img src="wimages/route/map.png" alt="" /></span></div>
+		</div>
+	</div>
+	<!--交通方式行程天数-->
+	<div class="route_selsect">
+		<div class="route_left_border">
+			<div class="parame_img"><img class="route_parame_img" src="wimages/route/traffic.png"></div>
+			<div class="route_parame">&nbsp;<span class="route_traffic"></span></div>
+		</div>
+		<div class="route_right_border">
+			<div class="parame_img"><img class="route_parame_img" src="wimages/route/date.png"></div>
+			<div class="route_parame"><span	class="route_parame_title">&nbsp;行程天数：</span><span class="route_journey_day"></span><span class="route_parame_title">天</span></div>
+		</div>
+	</div>
+	<!--可定日期-->
+	<div class="route_selsect_date start_city_date">
+		<div class="route_date_left">
+			<div class="date_parame_img"><img class="route_date_parame_img" src="wimages/route/u600.png"></div>
+			<div class="route_peer_city" ><div class="route_parame_title_date">&nbsp;出发班次</div><div class="route_start_date"></div></div>
+		</div>
+		<div class="route_date_right">
+			<span class="route_date_right_span">></span>
+		</div>
+	</div>
+	<!--同行人员-->
+	
+	<div class="route_selsect_date peer_people">
+		<div class="route_date_left">
+			<div class="date_parame_img"><img class="route_date_parame_img" src="wimages/route/u639.png"></div>
+			<div class="route_peer_city" ><span class="route_parame_title_date">&nbsp;出行人员</span><span class="route_peer"></span></div>
+		</div>
+		<div class="route_date_right">
+			<span class="route_date_right_span">></span>
+		</div>
+	</div>
+	
+		
+	<!--线路提示-->
+	<div class="route_selsect_date">
+		<div class="route_date_left">
+			<div class="date_parame_img"><img class="route_date_parame_img" src="wimages/route/u633.png"></div>
+			<div class="route_parame"><span	class="route_parame_title">&nbsp;线路提示</span></div>
+		</div>
+	</div>
+	<div class="route_route_prompt">
+		<div class="route_route_prompt_word">
+			
+		</div>
+	</div>
+	<!--富文本按钮-->
+	<div class="route_ue_button">
+		<div class="ue_button route_journey" style="margin-left: 0;">线路行程</div>
+		<div class="ue_button cost_explain">费用说明</div>
+		<div class="ue_button schedule_guide">预订指南</div>
+	</div>
+	<!--富文本框-->
+	<div class="route_ue_border">
+		<div class="ue_border route_journey_border">线路行程</div>
+		<div class="ue_border cost_explain_border">线路行程</div>
+		<div class="ue_border schedule_guide_border">线路行程</div>
+	</div>
+	
+	
+</div>
+<!--<nav class="nav_border mui-bar mui-bar-tab">	
+		<button class="route_order">预订</button>
+</nav>-->
+
+		<input type="hidden" class="timestamp"/>
+		<input type="hidden" class="nonceStr"/>
+		<input type="hidden" class="signature"/>
+		<input type="hidden" class="imgurl"/>
+
+<div id="middlePopover" class="mui-popover">
+			<div class="mui-popover-arrow"></div>
+			<div class="mui-scroll-wrapper">
+				<div class="mui-scroll">
+					<ul class="mui-table-view">
+						<li class="mui-table-view-cell"><a href="#">Item1</a>
+						</li>
+						
+					</ul>
+				</div>
+			</div>
+
+		</div>
+
+
+</body>
+<!--<script type="text/javascript" src="js/jquery.date_input.pack.js"></script>--> 
+<script type="text/javascript">
+    var userid = window.localStorage.getItem('token');
+    var urll = window.location.href;
+	var id = urll.substr(urll.indexOf('=')+1);
+	
+	/*
+	 返回按钮
+	 * */
+	var prevurl = window.localStorage.getItem('prevurl');
+	//console.log(prevurl+'链接');
+	$(document).on('tap', '.detail_return',function(){
+		var prevurl = window.localStorage.getItem('prevurl');
+		window.location.href = prevurl;
+	});
+	//微信自带返回按钮
+	pushHistory(); 
+    window.addEventListener("popstate", function(e) { 
+        //alert("我监听到了浏览器的返回按钮事件啦");//根据自己的需求实现自己的功能 
+        window.location.href = prevurl;
+    }, false); 
+    function pushHistory() { 
+        var state = { 
+            title: "title", 
+            url: "#"
+        }; 
+        window.history.pushState(state, "title", "#"); 
+    }
+    //收藏函数
+    function route_collect(id,userid){
+    	mui.ajax(config[0].url+'/index.php/route_collect_init',{
+   			data:{id:id,userid:userid},
+   			type:'POST',
+   			dataType:'json',
+   			timeout:10000,
+   			success:function(data){
+// 				console.log(data);
+   				if(data == 1){
+   					$('.route_top_collect').append("<img src='wimages/route/hardheart_u621.png'>");
+   				}else if(data ==0){
+   					$('.route_top_collect').append("<img src='wimages/route/eptheart_u619.png'>");
+   				}
+   				
+   			},
+   			error:function(xhr,type,errorThrown){
+   				switch (type) {
+					case "timeout":
+						mui.toast('连接超时，请重试');
+						break;
+					default:
+						mui.toast('请重试或重新登录');
+				}
+   			}
+   		});
+    }
+    //获得线路的id
+    $(function(){  
+    	var urll = window.location.href;
+    	var id = urll.substr(urll.indexOf('=')+1);
+    	route_collect(id,userid);
+    	
+   		mui.ajax(config[0].url+'/index.php/route_cate_detail',{
+   			data:{id:id,userid:userid},
+   			type:'POST',
+   			dataType:'json',
+   			timeout:10000,
+   			success:function(data){
+// 				console.log(data);
+				if(data[0]['product_cate'] == 2 || data[0]['product_cate'] == 3){
+					var nav = "<nav class='nav_border mui-bar mui-bar-tab'>"+
+							"<button class='route_order'>预订</button>"+
+						"</nav>";
+					$("body").append(nav);
+				}
+   				$('.route_element').css('background-image',"url("+config[0].url+"/Uploads/pic/"+data[0]['picture']+")");
+   				$('.imgurl').val(config[0].url+"/Uploads/pic/"+data[0]['picture']);
+   				$('.route_discount_price').html('￥'+data[0]['discount_price']+'/人');
+   				$('.route_rated_price').html('￥'+data[0]['rated_price']+'/人');
+   				if(data[0]['play_way']==1){
+					var play_way = '品质游';
+				}else if(data[0]['play_way']==2){
+					var play_way = '跟团游';
+				}else{
+					var play_way = '自驾游';
+				}
+				$('.route_name').html("["+play_way+"]"+data[0]['route_name']);
+				/*线路标签*/
+				if(data[0]['route_label']==1){
+					var route_label = '热销';
+					var label_img = "./wimages/route/u540.png";
+					$('.route_label').css('color','red');
+				}else if(data[0]['route_label']==2){
+					var route_label = '推荐';
+					var label_img = "./wimages/route/u554.png";
+					$('.route_label').css('color','limegreen');
+				}
+				$('.route_label').html(route_label);
+				$('.route_label_img').append("<img src="+label_img+">");
+				/*出发城市目的地等*/
+				$('.route_start_city').html(data[0]['new_city']);
+				$('.route_destination').html(data[0]['destination']);
+				$('.route_traffic').html(data[0]['traffic']);
+				$('.route_journey_day').html(data[0]['journey_day']);
+				/*可定日期*/
+				
+				/*线路提示*/
+				$('.route_route_prompt_word').html(data[0]['route_prompt']);
+				/*富文本读取*/
+				$('.route_journey_border').html(data[0]['route_journey']);
+				$('.cost_explain_border').html(data[0]['cost_explain']);
+				$('.schedule_guide_border').html(data[0]['schedule_guide']);
+   			},
+   			error:function(xhr,type,errorThrown){
+   				switch (type) {
+					case "timeout":
+						mui.toast('连接超时，请重试');
+						break;
+					default:
+						mui.toast('请重试或重新登录');
+				}
+   			}
+   		});
+	}); 
+	//点击富文本按钮
+	$(document).on('tap', '.route_journey',function(){
+		$('.route_journey_border').show();
+		$('.cost_explain_border').hide();
+		$('.schedule_guide_border').hide();
+		$('.route_journey').css('background-color','#6699FF');
+		$('.route_journey').css('color','#FFFFFF');
+		$('.cost_explain').css('background-color','#FFFFFF');
+		$('.cost_explain').css('color','#68B3C8');
+		$('.schedule_guide').css('background-color','#FFFFFF');
+		$('.schedule_guide').css('color','#68B3C8');
+	});
+	$(document).on('tap', '.cost_explain',function(){
+		$('.cost_explain_border').show();
+		$('.schedule_guide_border').hide();
+		$('.route_journey_border').hide();
+		$('.cost_explain').css('background-color','#6699FF');
+		$('.cost_explain').css('color','#FFFFFF');
+		$('.route_journey').css('background-color','#FFFFFF');
+		$('.route_journey').css('color','#68B3C8');
+		$('.schedule_guide').css('background-color','#FFFFFF');
+		$('.schedule_guide').css('color','#68B3C8');
+	});
+	$(document).on('tap', '.schedule_guide',function(){
+		$('.schedule_guide_border').show();
+		$('.cost_explain_border').hide();
+		$('.route_journey_border').hide();
+		$('.schedule_guide').css('background-color','#6699FF');
+		$('.schedule_guide').css('color','#FFFFFF');
+		$('.cost_explain').css('background-color','#FFFFFF');
+		$('.cost_explain').css('color','#68B3C8');
+		$('.route_journey').css('background-color','#FFFFFF');
+		$('.route_journey').css('color','#68B3C8');
+		
+	});
+	
+	//上拉下拉显示
+	window.addEventListener('swipedown',function(e){
+//			console.log('下滑');
+			 $('.mui-bar-nav').animate({height:'hide'},"speed");
+	});
+	window.addEventListener('swipeup',function(e){
+//			console.log('上滑');
+			$('.mui-bar-nav').animate({height:'show'},"speed");
+	});
+	//收藏按钮
+	
+	$(document).on('tap','.route_top_collect',function(){
+		var urll = window.location.href;
+		var id = urll.substr(urll.indexOf('=')+1);
+		mui.ajax(config[0].url+'/index.php/route_collect',{
+   			data:{id:id,userid:userid},
+   			type:'POST',
+   			dataType:'json',
+   			timeout:10000,
+   			success:function(data){
+// 				console.log(data);
+   				if(data == 1){
+   					$('.route_top_collect').empty();
+   					$('.route_top_collect').append("<img src='wimages/route/hardheart_u621.png'>");
+   				}else if(data ==0){
+   					$('.route_top_collect').empty();
+   					$('.route_top_collect').append("<img src='wimages/route/eptheart_u619.png'>");
+   				}	
+   			},
+   			error:function(xhr,type,errorThrown){
+   				switch (type) {
+					case "timeout":
+						mui.toast('连接超时，请重试');
+						break;
+					default:
+						mui.toast('请重试或重新登录');
+				}
+   			}
+   		});
+	});
+	
+	//分享按钮
+	$(function(){
+//	$(document).on('tap','.route_top_share',function(){
+		var urll = window.location.href;
+        mui.ajax(config[0].url+'/index.php/jdk', {
+            data: {
+                url: urll
+            },
+            dataType: 'json', //服务器返回json格式数据
+            type: 'post', //HTTP请求类型
+            timeout: 10000, //超时时间设置为10秒；
+            success: function(data) {
+//            	console.log(data);
+                if (typeof data == "string") {
+                    var data = eval('(' + data + ')');
+                }
+                //console.log(data);
+                $('.timestamp').val(data.time);
+                $('.nonceStr').val(data.noncestr);
+                $('.signature').val(data.signature);
+                var time = $('.timestamp').val();
+                var nonc = $('.nonceStr').val();
+                var sig = $('.signature').val();
+                wx.config({
+
+                    debug: false,
+                    appId: 'wxbc233884a5cf1afd',
+                    timestamp: time,
+                    nonceStr: nonc,
+                    signature: sig,
+                    jsApiList: [
+//                      'checkJsApi',
+                        'onMenuShareTimeline',
+                        'onMenuShareAppMessage',
+//                      'onMenuShareQQ',
+//                      'onMenuShareWeibo',
+//                      'onMenuShareQZone',
+                    ]
+                });
+            },  
+        });
+	});
+		 
+//      $(document).on('tap','.route_top_share',function(){
+		wx.ready(function () {
+        	var urll = window.location.href;
+        	var title = $('.route_name').html();
+        	var imgUrl= $('.imgurl').val();
+        	var desc = $('.route_route_prompt_word').html();
+        	console.log(imgUrl);
+		    // 获取“分享到朋友圈”按钮点击状态及自定义分享内容接口
+		    wx.onMenuShareTimeline({
+		       title: title, // 分享标题
+		       link:urll,
+		       desc: desc,
+//		       img_width:200,
+//			   img_height:200,
+		       imgUrl:imgUrl,// 分享图标
+//		         trigger: function (res) {
+//              alert('用户点击分享到朋友圈');
+//	            },
+	            success: function (res) {
+	                alert('分享成功');
+	            },
+	            cancel: function (res) {
+	                
+	            },
+			    });
+//		     获取“分享给朋友”按钮点击状态及自定义分享内容接口
+		    wx.onMenuShareAppMessage({
+		        title: title, // 分享标题
+		        desc: desc, // 分享描述
+		        link:urll,
+		        imgUrl: imgUrl, // 分享图标
+		        type: 'link', // 分享类型,music、video或link，不填默认为link
+		        success: function (res) {
+	                alert('分享成功');
+	            },
+	            cancel: function (res) {
+	                
+	            },
+		    });
+		});
+        
+    //可定城市日期
+ 	$(document).on('tap', '.start_city_date',function(){
+		var html = 'route_city_date.html?id='+id;
+        token_check(userid, html);
+	});
+		
+	//同行人员
+	$(document).on('tap', '.peer_people',function(){
+		var html = 'route_peer_member.html?id='+id;
+        token_check(userid, html);
+	});
+	//可定城市日期和同行人员 填充
+	$(function(){
+		var route_id = window.localStorage.getItem('route_id');
+		console.log(route_id);
+		console.log(id);
+		
+		if(route_id != id){
+			window.localStorage.setItem('city_date_place','');
+			window.localStorage.setItem('peer_member','');
+		}
+		var city_date_place = window.localStorage.getItem('city_date_place');
+		if(city_date_place =='' || city_date_place== undefined || city_date_place== null){
+			$('.route_start_date').html('');
+		}else{
+			$('.route_start_date').html(city_date_place);
+		}
+		var peer_member =window.localStorage.getItem('peer_member');
+		if(peer_member =='' || peer_member== undefined || peer_member== null){
+			$('.route_peer').html('');
+		}else{
+			var strs= new Array();
+			strs=peer_member.split(",");
+			$('.route_peer').html('选择'+strs.length+'人');
+		}
+		
+	});
+	//页面刷新清除缓存
+//	window.onbeforeunload = function() {
+//      var n = window.event.screenX - window.screenLeft;
+//      var b = n > document.documentElement.scrollWidth - 20;
+//      if (!(b && window.event.clientY < 0 || window.event.altKey)) {
+//          window.localStorage.setItem('city_date_place','');
+//      }
+//  } 
+	//后退清除缓存
+//	$(document).on('tap', '.mui-action-back',function(){
+//		window.localStorage.setItem('city_date_place','');
+//	});
+	//预订
+	$(document).on('tap', '.route_order',function(){
+		var peer_member =window.localStorage.getItem('peer_member');
+		var route_place_id =window.localStorage.getItem('route_place_id');
+		console.log(route_place_id);
+		console.log(peer_member);
+		if(peer_member == '' || peer_member == null){
+			mui.toast('请选择出行人员');return;
+		}
+		if(route_place_id == '' || route_place_id == null){
+			mui.toast('请选择出发班次');return;
+		}
+		mui.toast('预订成功，前往支付');
+		var html = 'order_confirm.html?id='+id;
+		token_check(userid, html);	
+	});
+	
+	//新预定
+//	$(document).on('tap', '.route_order',function(){
+//		
+//		var route_place_id =window.localStorage.getItem('route_place_id');
+//		console.log(route_place_id);
+//		if(route_place_id == ''){
+//			mui.toast('请选择出发地址');return false;
+//		}
+//		var peer_member =window.localStorage.getItem('peer_member');
+//		console.log(peer_member);
+//		if(peer_member == ''){
+//			mui.toast('请选择同行人员');return false;
+//		}
+//		mui.ajax(config[0].url+'/index.php/order_post', {
+//          data: {
+//              member_id: peer_member,
+//              route_id:id,
+//              route_place_id:route_place_id,
+//          },
+//          dataType: 'json', //服务器返回json格式数据
+//          type: 'post', //HTTP请求类型
+//          timeout: 10000, //超时时间设置为10秒；
+//          success: function(data) {
+//          	console.log(data);
+//          	if(data['res'] == 'overflow'){
+//          			alert('实际超出'+data['message']+'人，重复提交'+data['peer_repeat']+'人');return;
+//          	}else if(data['res'] == 'null'){
+//          		mui.toast('请选择同行人员');return;
+//          	}else if(data['res'] == true){
+//          		if(data['notice']>0){
+////          				if (confirm("成功提交"+data['notice']+'人') == false) {
+////					            return false;
+////					        }
+//							alert("成功提交"+data['notice']+'人');
+//      			}else{
+//      				if(data['message']=='repeat_wrong'){
+//      					alert('不允许重复提交');return;
+//      				}else if(data['message']=='virtual_wrong'){
+//      					alert('剩余次数不足');return;
+//      				}else{
+//      					alert('重复提交');return;
+//      				}
+//      			}
+//
+//          		window.localStorage.setItem('peer_member','');
+//          		window.localStorage.setItem('route_place_id','');
+//          		window.localStorage.setItem('city_date_place','');
+//			        mui.toast('预定成功，前往支付');
+//          		var html = 'order_list.html';
+//      			token_check(userid, html);
+//          	}else{
+//          		window.localStorage.setItem('peer_member','');
+//          		window.localStorage.setItem('route_place_id','');
+//          		window.localStorage.setItem('city_date_place','');
+//          		mui.toast('订购失败');return;
+//          	}
+//          },
+// 			error:function(xhr,type,errorThrown){
+// 				switch (type) {
+//					case "timeout":
+//						mui.toast('连接超时，请重试');
+//						break;
+//					default:
+//						mui.toast('请重试或重新登录');
+//				}
+// 			}
+// 		});   		
+//	});
+</script>
+</html>
